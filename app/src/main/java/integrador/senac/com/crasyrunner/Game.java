@@ -20,6 +20,9 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
     private Context context;
     private Background backJogo;
     private Tela tela;
+    private ControleInimigos inimigos;
+
+    private Jogador jogador;
 
     public Game(Context context){
         super(context);
@@ -28,6 +31,8 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         this.backJogo = new Background(1, tela, context);
         gameOver = false;
 
+        this.inimigos = new ControleInimigos(1, context);
+        this.jogador = new Jogador(context, R.drawable.jogaodr);
         Thread thread = new Thread(this);
         thread.start();
     }
@@ -54,10 +59,14 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
 
     private void update(){
         this.backJogo.update();
+        this.inimigos.update();
+        this.jogador.update();
     }
 
     private void drawTela(Canvas canvas){
-        backJogo.draw(canvas);
+        this.backJogo.draw(canvas);
+        this.inimigos.draw(canvas);
+        this.jogador.draw(canvas);
     }
 
 }

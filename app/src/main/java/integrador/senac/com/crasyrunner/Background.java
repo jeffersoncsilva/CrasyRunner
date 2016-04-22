@@ -20,7 +20,6 @@ public class Background {
     public Background(int qual, Tela tela, Context context){
         carregaImagens(qual, tela, context);
         criaFundoJogo(tela);
-        Log.i("updatejogo", "background do jogo foi criado.");
     }
 
     private void carregaImagens(int qual, Tela tela, Context context){
