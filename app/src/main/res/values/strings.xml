@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CrasyRunner</string>
+    <string name="action_settings">Settings</string>
+    <string name="inicio">Jogar</string>
+    <string name="rank">Rank</string>
+    <string name="sair">Sair</string>
+    <string name="nomeJogo">CrasyRunner</string>
+</resources>
