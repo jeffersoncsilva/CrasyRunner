@@ -1,11 +1,17 @@
 package integrador.senac.com.crasyrunner;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Jefferson on 19/04/2016.
@@ -16,16 +22,17 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
 
     private static boolean gameOver = false;
 
+    private Activity act;
     private Context context;
     private Background backJogo;
     private ControleInimigos inimigos;
 
     private Jogador jogador;
 
-    public Game(Context context){
-        super(context);
-        this.context = context;
-
+    public Game(Activity activity){
+        super(activity.getBaseContext());
+        this.context = activity.getBaseContext();
+        this.act = activity;
         Tela.IniciaTela(context);
         this.backJogo = new Background(1, context);
         gameOver = false;
@@ -59,7 +66,10 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         this.inimigos.update();
         this.jogador.update();
         //verifica se hove colisão do jogador com algum inimigo.
-        Colisoes.ColisaoJogadorInimigos(jogador, inimigos.getListaInimigos());
+        if(Colisoes.ColisaoJogadorInimigos(jogador, inimigos.getListaInimigos())){
+            gameOver = true;
+            new GameOverTask(act);
+        }
     }
 
     private void drawTela(Canvas canvas){
