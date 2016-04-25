@@ -2,7 +2,6 @@ package integrador.senac.com.crasyrunner;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,10 +26,10 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
     public Game(Context context){
         super(context);
         this.context = context;
+
         this.tela = new Tela(context);
         this.backJogo = new Background(1, tela, context);
         gameOver = false;
-
         this.inimigos = new ControleInimigos(1, context);
         this.jogador = new Jogador(context, R.drawable.jogaodr);
         Thread thread = new Thread(this);
@@ -60,7 +59,8 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         this.backJogo.update();
         this.inimigos.update();
         this.jogador.update();
-        Colisoes.verificaColisao(jogador, inimigos.getListaInimigos());
+        //verifica se hove colisão do jogador com algum inimigo.
+        Colisoes.ColisaoJogadorInimigos(jogador, inimigos.getListaInimigos());
     }
 
     private void drawTela(Canvas canvas){

@@ -1,5 +1,7 @@
 package integrador.senac.com.crasyrunner;
 
+import android.util.Log;
+
 /**
  * Created by Jefferson on 25/04/2016.
  */
@@ -17,13 +19,10 @@ public class Rectangle {
     }
 
     public static boolean EstaColidindo(Rectangle rect, Rectangle rect2){
-        /*
-        colisão por retangulos.
-        * */
-        return rect.getPosX() + rect.getLargura() > rect2.getPosX() &&
-                rect.getPosY() < rect2.getPosX() + rect2.getLargura() &&
-                rect.getPosY() + rect.getAltura() > rect2.getPosY() &&
-                rect.getPosY() < rect2.getPosY() + rect2.getAltura();
+        return  (rect.getPosX() + rect.getLargura() > rect2.getPosX() &&
+                 rect.getPosX() < rect2.getPosX() + rect2.getLargura() &&
+                 rect.getPosY() + rect.getAltura() > rect2.getPosY() &&
+                 rect.getPosY() < rect2.getPosY() + rect2.getAltura());
     }
 
     public float getLargura() {
