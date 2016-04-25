@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inciaJogo(View v){
-        Log.i("inicio", "Iniciando o jogo.");
         Intent telaJogo = new Intent(MainActivity.this, TelaJogoActivity.class);
         startActivity(telaJogo);
     }
 
     public void rank(View v){
         Log.i("rank", "mostrando rank do jogo.");
+        Button btn = (Button) findViewById(R.id.btnVoltar);
     }
 
     public void sair(View v){
