@@ -39,7 +39,6 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
 
     @Override
     public void run(){
-        Log.i("updatejogo", "update do jogo iniciado.");
         while (!gameOver) {
             if (!holder.getSurface().isValid()) continue;
             //PRIMEIRO, update da fisica do jogo.
@@ -61,6 +60,7 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         this.backJogo.update();
         this.inimigos.update();
         this.jogador.update();
+        Colisoes.verificaColisao(jogador, inimigos.getListaInimigos());
     }
 
     private void drawTela(Canvas canvas){

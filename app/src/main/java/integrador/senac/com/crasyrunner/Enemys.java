@@ -40,4 +40,8 @@ public class Enemys {
 
     public float getLargura() {return this.img.getWidth();}
     public float getAltura() {return this.img.getHeight();}
+
+    public Rectangle getRectangle(){
+        return  new Rectangle(LARGURA_INIMIGO, ALTURA_INIMIGO, posX, posY);
+    }
 }

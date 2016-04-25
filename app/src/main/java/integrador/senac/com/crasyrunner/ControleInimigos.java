@@ -51,6 +51,8 @@ public class ControleInimigos {
             en.draw(canvas);
     }
 
+    public ArrayList<Enemys> getListaInimigos(){return inimigos;}
+
     private void criaInimigo() {
         int x = sorteiaPosicao();
         switch (nivel) {
