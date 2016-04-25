@@ -11,21 +11,19 @@ public class Paralaxe {
     private float x;
     private float y;
     private float velocidade;
-    private Tela tela;
 
-    public Paralaxe(Bitmap bitmap, float posX, float posY, float velocidade, Tela tela){
+    public Paralaxe(Bitmap bitmap, float posX, float posY, float velocidade){
         this.img = bitmap;
         this.x = posX;
         this.y = posY;
         this.velocidade = velocidade;
-        this.tela = tela;
     }
 
     public void update(){
 
         this.y += this.velocidade;
 
-        if(this.y >= this.tela.getAltura()){
+        if(this.y >= Tela.getAltura()){
             this.y = -this.img.getHeight();
         }
 

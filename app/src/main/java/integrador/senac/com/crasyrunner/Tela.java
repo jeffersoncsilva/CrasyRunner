@@ -12,9 +12,8 @@ import android.view.WindowManager;
 public class Tela {
     private static DisplayMetrics metrics;
 
-    public Tela(Context conetxt){
-
-        WindowManager wm = (WindowManager) conetxt.getSystemService(Context.WINDOW_SERVICE);
+    public static void IniciaTela(Context context){
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display diplay = wm.getDefaultDisplay();
         metrics = new DisplayMetrics();
         diplay.getMetrics(metrics);

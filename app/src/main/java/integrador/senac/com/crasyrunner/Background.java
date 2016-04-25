@@ -17,38 +17,38 @@ public class Background {
     private Paralaxe layerUm;
     private Paralaxe layerDois;
 
-    public Background(int qual, Tela tela, Context context){
-        carregaImagens(qual, tela, context);
-        criaFundoJogo(tela);
+    public Background(int qual, Context context){
+        carregaImagens(qual, context);
+        criaFundoJogo();
     }
 
-    private void carregaImagens(int qual, Tela tela, Context context){
+    private void carregaImagens(int qual, Context context){
         Bitmap back;
         switch(qual){
             case 1:
                 back = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_1);
-                this.backUm = Bitmap.createScaledBitmap(back, tela.getLargura(), tela.getAltura(), false);
+                this.backUm = Bitmap.createScaledBitmap(back, Tela.getLargura(), Tela.getAltura(), false);
                 break;
             case 2:
                 back = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_2);
-                this.backUm = Bitmap.createScaledBitmap(back, tela.getLargura(), tela.getAltura(), false);
+                this.backUm = Bitmap.createScaledBitmap(back, Tela.getLargura(), Tela.getAltura(), false);
                 break;
             case 3:
                 back = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_3);
-                this.backUm = Bitmap.createScaledBitmap(back, tela.getLargura(), tela.getAltura(), false);
+                this.backUm = Bitmap.createScaledBitmap(back, Tela.getLargura(), Tela.getAltura(), false);
                 break;
             case 4:
                 back = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_4);
-                this.backUm = Bitmap.createScaledBitmap(back, tela.getLargura(), tela.getAltura(), false);
+                this.backUm = Bitmap.createScaledBitmap(back, Tela.getLargura(), Tela.getAltura(), false);
                 break;
         }
     }
 
-    private void criaFundoJogo(Tela tela){
+    private void criaFundoJogo(){
         //cria o primeiro na posição 0,0
-        this.layerUm = new Paralaxe(backUm,0,0,5, tela);
+        this.layerUm = new Paralaxe(backUm,0,0,5);
         //criao segundo, na posição: X = 0; Y = -alturaImagem
-        this.layerDois = new Paralaxe(backUm, 0,-backUm.getHeight(), 5, tela);
+        this.layerDois = new Paralaxe(backUm, 0,-backUm.getHeight(), 5);
     }
 
     public void update(){

@@ -18,7 +18,6 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
 
     private Context context;
     private Background backJogo;
-    private Tela tela;
     private ControleInimigos inimigos;
 
     private Jogador jogador;
@@ -27,8 +26,8 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         super(context);
         this.context = context;
 
-        this.tela = new Tela(context);
-        this.backJogo = new Background(1, tela, context);
+        Tela.IniciaTela(context);
+        this.backJogo = new Background(1, context);
         gameOver = false;
         this.inimigos = new ControleInimigos(1, context);
         this.jogador = new Jogador(context, R.drawable.jogaodr);
