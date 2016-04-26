@@ -68,7 +68,7 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         //verifica se hove colisão do jogador com algum inimigo.
         if(Colisoes.ColisaoJogadorInimigos(jogador, inimigos.getListaInimigos())){
             gameOver = true;
-            new GameOverTask(act);
+            new GameOverTask(act).execute();
         }
     }
 
