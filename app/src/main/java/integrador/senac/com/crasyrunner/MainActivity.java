@@ -12,24 +12,49 @@ import android.view.View;
 import android.widget.Button;
 
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
-    public static CallbackManager call;
+    private CallbackManager call;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         call = CallbackManager.Factory.create();
+
         setContentView(R.layout.activity_main);
 
+        LoginButton lbtn = (LoginButton) findViewById(R.id.login_button);
+        lbtn.setReadPermissions("user_friends");
 
-        /*PEGAR A KEY HASH PARA APP DO FACEBOOK.*/
+        lbtn.registerCallback(call, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.i("facebook", "houve um tipo de sucesso: " + loginResult.getAccessToken().getUserId());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.i("facebook", "houve um tipo de cancelamento.");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.i("facebook", "houve um tipo de fracasso.");
+            }
+        });
+
+
+        /*PEGAR A KEY HASH PARA APP DO FACEBOOK.
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "integrador.senac.com.crasyrunner",
@@ -44,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("erro", e.getMessage(), e);
         }
-        /**/
+        */
 
     }
 

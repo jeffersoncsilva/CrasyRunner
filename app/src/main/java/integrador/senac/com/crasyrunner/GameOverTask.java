@@ -52,28 +52,6 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         try {
             LayoutInflater inflater = (LayoutInflater) this.act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.game_over, null, false);
-            //login button para logar ao facebook -- PARTE DO CODIGO QUE REALIZA O LOGIN COM FACEBOOK.
-            LoginButton lbtn = (LoginButton) view.findViewById(R.id.login_button);
-            lbtn.setReadPermissions("user_friends");
-
-
-            lbtn.registerCallback(MainActivity.call, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    Log.i("facebook", "houve um tipo de sucesso: " + loginResult.getAccessToken().getUserId());
-                }
-
-                @Override
-                public void onCancel() {
-                    Log.i("facebook", "houve um tipo de cancelamento.");
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Log.i("facebook", "houve um tipo de fracasso.");
-                }
-            });
-            //----- FINAL DO CODIGO ----------
             Button btInicio = (Button) view.findViewById(R.id.btnVoltarInicio);
             btInicio.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -82,7 +60,6 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
                     pw.dismiss();
                 }
             });
-
             pw = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
             LinearLayout layout = new LinearLayout(act);
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
