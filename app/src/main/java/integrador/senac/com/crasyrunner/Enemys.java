@@ -15,7 +15,7 @@ public class Enemys {
     private Bitmap img;
     private float posX;
     private float posY;
-    private float velocidadeY = 0.5f;
+    private float velocidadeY = 2.5f;
 
 
 

@@ -31,12 +31,19 @@
         android:text="@string/voltaInicio"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"/>
-
+<!--
     <ImageView
         android:id="@+id/iconFace"
         android:layout_height="30dp"
         android:layout_width="30dp"
         android:src="@drawable/social"
         android:clickable="true" />
+-->
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>
