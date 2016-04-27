@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         lbtn.registerCallback(call, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.i("facebook", "houve um tipo de sucesso: " + loginResult.getAccessToken().getUserId());
+                Log.i("facebook", "houve um tipo de sucesso: " + loginResult.getAccessToken().getToken().toString());
             }
 
             @Override
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Log.i("facebook", "houve um tipo de fracasso.");
+                Log.i("facebook", "houve um tipo de fracasso. ERRO: " + error.toString());
             }
         });
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.e("erro", e.getMessage(), e);
         }
-        */
+        /**/
 
     }
 
