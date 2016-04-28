@@ -11,10 +11,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -24,6 +29,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
     private CallbackManager call;
+
+    private AccessToken acToken;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         lbtn.registerCallback(call, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.i("facebook", "houve um tipo de sucesso: " + loginResult.getAccessToken().getToken().toString());
+                Log.i("facebook", "houve um tipo de sucesso: " + loginResult.getAccessToken().getUserId());
             }
 
             @Override
@@ -49,12 +57,38 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Log.i("facebook", "houve um tipo de fracasso. ERRO: " + error.toString());
+                Log.i("facebook", "houve um tipo de fracasso. ERRO: " + error.toString() + " | " + error.getMessage());
             }
+
         });
 
 
+        //verifica se ja esta conectado ao facebook.
+
+       if(AccessToken.getCurrentAccessToken() != null) {
+           acToken = AccessToken.getCurrentAccessToken();
+           Profile prof = Profile.getCurrentProfile();
+           Log.i("toenatual", "User: " + acToken.getUserId());
+           Log.i("toenatual", "Profile: " + prof.getName());
+
+           //parte responsavel por pegar os amigos no facebook.
+           new GraphRequest(
+                   AccessToken.getCurrentAccessToken(),
+                   "/me/friends",
+                   null,
+                   HttpMethod.GET,
+                   new GraphRequest.Callback() {
+                       public void onCompleted(GraphResponse response) {
+                            /* handle the result */
+                           Log.i("resposta", "algo aconteceu. : " + response.toString());
+                       }
+                   }
+           ).executeAsync();
+
+       }
         /*PEGAR A KEY HASH PARA APP DO FACEBOOK.
+
+         */
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "integrador.senac.com.crasyrunner",
