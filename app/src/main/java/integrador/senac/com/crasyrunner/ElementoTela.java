@@ -19,7 +19,7 @@ public class ElementoTela {
 
     public ElementoTela(){
         largura = (Tela.getLargura() * 0.15f);
-        altura = (Tela.getAltura() * 0.15f);
+        altura = (Tela.getAltura() * 0.10f);
     }
 
     public void update(){}
@@ -31,7 +31,7 @@ public class ElementoTela {
 
     protected float geraPosicaoAleatoria(){
         Random r = new Random();
-        return  r.nextInt(Tela.getLargura());
+        return  r.nextInt((Tela.getLargura() - (int)largura));
     }
 
     public boolean saiuTela(){

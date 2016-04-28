@@ -10,7 +10,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -23,14 +22,13 @@ import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
     private CallbackManager call;
-
     private AccessToken acToken;
+    private Profile prof;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +36,9 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         call = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_main);
-
         LoginButton lbtn = (LoginButton) findViewById(R.id.login_button);
         lbtn.setReadPermissions("user_friends");
-
         lbtn.registerCallback(call, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -61,50 +56,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-
         //verifica se ja esta conectado ao facebook.
-
-       if(AccessToken.getCurrentAccessToken() != null) {
-           acToken = AccessToken.getCurrentAccessToken();
-           Profile prof = Profile.getCurrentProfile();
-           Log.i("toenatual", "User: " + acToken.getUserId());
-           Log.i("toenatual", "Profile: " + prof.getName());
-
-           //parte responsavel por pegar os amigos no facebook.
-           new GraphRequest(
-                   AccessToken.getCurrentAccessToken(),
-                   "/me/friends",
-                   null,
-                   HttpMethod.GET,
-                   new GraphRequest.Callback() {
-                       public void onCompleted(GraphResponse response) {
-                            /* handle the result */
-                           Log.i("resposta", "algo aconteceu. : " + response.toString());
-                       }
-                   }
-           ).executeAsync();
-
-       }
+        verificaConexaoFace();
         /*PEGAR A KEY HASH PARA APP DO FACEBOOK.
-
-         */
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "integrador.senac.com.crasyrunner",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e("erro", e.getMessage(), e);
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("erro", e.getMessage(), e);
-        }
-        /**/
-
+        pegaKeyHash();
+        */
     }
 
     public void inciaJogo(View v){
@@ -125,7 +81,48 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("activityresult","foi recebido o resultado de algo.");
+        Log.i("activityresult", "foi recebido o resultado de algo.");
         call.onActivityResult(requestCode, resultCode, data);
     }
+
+    private void verificaConexaoFace(){
+        if(AccessToken.getCurrentAccessToken() != null) {
+            acToken = AccessToken.getCurrentAccessToken();
+            prof = Profile.getCurrentProfile();
+            Log.i("toenatual", "User: " + acToken.getUserId());
+            Log.i("toenatual", "Profile: " + prof.getName());
+
+            //parte responsavel por pegar os amigos no facebook.
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me/friends",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            /* handle the result */
+                            Log.i("resposta", "algo aconteceu. : " + response.toString());
+                        }
+                    }
+            ).executeAsync();
+        }
+    }
+
+    private void pegaKeyHash(){
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "integrador.senac.com.crasyrunner",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("erro", e.getMessage(), e);
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("erro", e.getMessage(), e);
+        }
+    }
+
 }

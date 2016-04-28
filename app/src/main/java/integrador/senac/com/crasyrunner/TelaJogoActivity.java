@@ -1,7 +1,9 @@
 package integrador.senac.com.crasyrunner;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -20,7 +22,5 @@ public class TelaJogoActivity extends Activity {
         game = new Game(this);
         content.addView(game);
     }
-
-    
 
 }

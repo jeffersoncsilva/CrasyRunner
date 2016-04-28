@@ -41,14 +41,15 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
 
     public Game(Activity activity){
         super(activity.getBaseContext());
+        this.gameOver = false;
         this.context = activity.getBaseContext();
         this.act = activity;
         Tela.IniciaTela(context);
         this.backJogo = new Background(1, context);
-        gameOver = false;
         this.elementos = new ControleElementos(context, 1);
         this.jogador = new Jogador(context, R.drawable.jogaodr);
         this.hud = new Hud();
+
         Thread thread = new Thread(this);
         thread.start();
     }
