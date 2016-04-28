@@ -8,47 +8,32 @@ import android.graphics.Canvas;
 /**
  * Created by Jefferson on 22/04/2016.
  */
-public class Jogador {
-    private static final int TAM = 50;//tamanho do personagem em largura e altura.
-    private final float SPEED = 2.5f;
-    private Bitmap img;
-    private int posX;
-    private int posY;
-
+public class Jogador extends  ElementoTela{
     private Acelerometro ac;
 
     public Jogador(Context context, int idImage){
+        super();
         //define a posição inicial do jogador.
-        this.posX = (Tela.getLargura() / 2) - (TAM / 2);
-        this.posY = (Tela.getAltura() - TAM - 20);
+        this.posX = (Tela.getLargura() / 2) - (largura / 2);
+        this.posY = (Tela.getAltura() - altura - 20);
         Bitmap back = BitmapFactory.decodeResource(context.getResources(), idImage);
-        this.img = Bitmap.createScaledBitmap(back, 50, 50, false);
+        this.img = Bitmap.createScaledBitmap(back, (int)largura, (int)altura, false);
         this.ac = new Acelerometro(context);
+        this.velocidade = 3.0f;
     }
 
     public void update() {
         //atualiza a posição do jogador com base no acelerometro.
-
         float acX = ac.getAcelerationX();
-
         if (acX > 0 && this.posX >= 0)
         {
             //esta indo para esquerda.
-            posX -= (acX * SPEED);
+            posX -= (acX * velocidade);
         }
-        if(acX < 0 && this.posX + TAM <= Tela.getLargura())
+        if(acX < 0 && this.posX + largura <= Tela.getLargura())
         {
             //esta indo para direita.
-            posX -= (acX * SPEED);
+            posX -= (acX * velocidade);
         }
     }
-
-    public void draw(Canvas canvas){
-        canvas.drawBitmap(img, posX, posY, null);
-    }
-
-    public Rectangle getRectangle(){
-        return  new Rectangle(TAM, TAM, posX, posY);
-    }
-
 }

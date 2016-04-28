@@ -68,8 +68,4 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             Log.i("gameovertaskerro", "Erro: " + e.toString());
         }
     }
-
-    private void conectaFacebook(){
-        //LoginManager lm = new LoginManager();
-    }
 }
