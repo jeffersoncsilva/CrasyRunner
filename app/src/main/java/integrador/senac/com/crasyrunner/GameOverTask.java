@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.facebook.share.model.ShareLinkContent;
 
@@ -57,6 +58,8 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             btShareFb.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                Toast.makeText(act.getBaseContext(), "clique no btn de share", Toast.LENGTH_SHORT).show();
+
                 ShareLinkContent content = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse("https://globo.com"))
                         .build();
