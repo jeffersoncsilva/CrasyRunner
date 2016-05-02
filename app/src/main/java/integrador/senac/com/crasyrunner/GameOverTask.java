@@ -2,6 +2,7 @@ package integrador.senac.com.crasyrunner;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Gravity;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+
+import com.facebook.share.model.ShareLinkContent;
 
 /**
  * Created by Jefferson on 25/04/2016.
@@ -49,6 +52,17 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
                     pw.dismiss();
                 }
             });
+
+            Button btShareFb = (Button) view.findViewById(R.id.btShareFb);
+            btShareFb.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse("https://globo.com"))
+                        .build();
+            }
+            });
+
             pw = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
             LinearLayout layout = new LinearLayout(act);
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);

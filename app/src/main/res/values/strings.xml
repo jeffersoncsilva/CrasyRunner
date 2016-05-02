@@ -10,4 +10,8 @@
     <string name="voltaInicio">Inicio</string>
     <string name="voltar">Voltar</string>
     <string name="facebook_app_id">213727709011724</string>
+    <string name="facil">Facio</string>
+    <string name="medio">Médio</string>
+    <string name="dificio">Dificio</string>
+    <string name="shareFb">Compartilhar</string>
 </resources>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nomeJogo"
+        android:textSize="44dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center">
+        <Button
+            android:id="@+id/btnFacil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/facil"
+            android:textSize="24dp"
+            android:textAlignment="center"
+            android:onClick="facil"/>
+
+        <Button
+            android:id="@+id/medio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/medio"
+            android:textSize="22dp"
+            android:textAlignment="center"
+            android:onClick="medio"/>
+
+        <Button
+            android:id="@+id/dificio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dificio"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:onClick="dificio"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnVolta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/voltar"
+        android:onClick="voltaInicio"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

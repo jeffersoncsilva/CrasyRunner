@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inciaJogo(View v){
-        Intent telaJogo = new Intent(MainActivity.this, TelaJogoActivity.class);
-        startActivity(telaJogo);
+        Intent telaNivel = new Intent(MainActivity.this, DificuldadeJogo.class);
+        startActivity(telaNivel);
     }
 
     public void rank(View v){

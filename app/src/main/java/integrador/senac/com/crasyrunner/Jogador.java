@@ -11,13 +11,11 @@ import android.graphics.Canvas;
 public class Jogador extends  ElementoTela{
     private Acelerometro ac;
 
-    public Jogador(Context context, int idImage){
+    public Jogador(Context context){
         super();
         //define a posição inicial do jogador.
-        this.posX = (Tela.getLargura() / 2) - (largura / 2);
-        this.posY = (Tela.getAltura() - altura - 20);
-        Bitmap back = BitmapFactory.decodeResource(context.getResources(), idImage);
-        this.img = Bitmap.createScaledBitmap(back, (int)largura, (int)altura, false);
+        this.posX = (Tela.getLargura() / 2) - (raio / 2);
+        this.posY = (Tela.getAltura() - raio - 20);
         this.ac = new Acelerometro(context);
         this.velocidade = 3.0f;
     }
@@ -25,12 +23,12 @@ public class Jogador extends  ElementoTela{
     public void update() {
         //atualiza a posição do jogador com base no acelerometro.
         float acX = ac.getAcelerationX();
-        if (acX > 0 && this.posX >= 0)
+        if (acX > 0 && this.posX + velocidade >= 0)
         {
             //esta indo para esquerda.
             posX -= (acX * velocidade);
         }
-        if(acX < 0 && this.posX + largura <= Tela.getLargura())
+        if(acX < 0 && ((this.posX + (raio * 2)) - velocidade) <= Tela.getLargura())
         {
             //esta indo para direita.
             posX -= (acX * velocidade);

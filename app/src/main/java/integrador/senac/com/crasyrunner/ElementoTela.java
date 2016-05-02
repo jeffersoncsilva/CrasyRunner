@@ -1,50 +1,96 @@
 package integrador.senac.com.crasyrunner;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-
+import android.graphics.Paint;
 import java.util.Random;
 
 /**
  * Created by Jefferson on 27/04/2016.
  */
-public class ElementoTela {
-    protected Bitmap img;
-    protected float largura;
-    protected float altura;
+public abstract class ElementoTela {
+    private Paint cor;
+    protected int raio;
     protected float posX;
     protected float posY;
-    protected float velocidade = 4.0f;
-    protected String rotulo;
+    protected float velocidade = 5.0f;
+    protected String nomeCor;
 
     public ElementoTela(){
-        largura = (Tela.getLargura() * 0.15f);
-        altura = (Tela.getAltura() * 0.10f);
-    }
-
-    public void update(){}
-
-
-    public void draw(Canvas canvas){
-        canvas.drawBitmap(img, this.posX, this.posY, null);
+        raio = (int)(Tela.getLargura() * 0.05f);
+        cor = new Paint();
+        mudaCor();
     }
 
     protected float geraPosicaoAleatoria(){
         Random r = new Random();
-        return  r.nextInt((Tela.getLargura() - (int)largura));
+        return  (r.nextInt((Tela.getLargura() - (raio * 2)))  + raio);
+    }
+
+    protected void setNomeCor(String nomeCor){ this.nomeCor = nomeCor; }
+
+    public abstract void update();
+
+    public void draw(Canvas canvas){
+        canvas.drawCircle(this.posX, this.posY, raio, cor);
     }
 
     public boolean saiuTela(){
-        return (this.posY >= Tela.getAltura());
+        return ((this.posY - raio) >= Tela.getAltura());
     }
 
-    public float getLargura() {return this.img.getWidth();}
-    public float getAltura() {return this.img.getHeight();}
-    public String getRotulo(){return this.rotulo;}
+    public String getNomeCor(){return this.nomeCor;}
 
-    public Rectangle getRectangle(){
-        return  new Rectangle(getLargura(), getAltura(), posX, posY);
+    public void mudaCor(){
+        Random r = new Random();
+        int q = r.nextInt(10);
+        switch(q){
+            case 1:
+                cor.setColor(0xFFFF0000);
+                setNomeCor("vermelho");
+                break;
+            case 2:
+                cor.setColor(0xFF0000FF);
+                setNomeCor("azulescuro");
+                break;
+            case 3:
+                cor.setColor(0xFF00BFFF);
+                setNomeCor("azulclaro");
+                break;
+            case 4:
+                cor.setColor(0xFF00FF00);
+                setNomeCor("verde");
+                break;
+            case 5:
+                cor.setColor(0xFFFFFF00);
+                setNomeCor("amarelo");
+                break;
+            case 6:
+                cor.setColor(0xFFFF4500);
+                setNomeCor("laranjado");
+                break;
+            case 7:
+                cor.setColor(0xFFFF1493);
+                setNomeCor("rosa");
+                break;
+            case 8:
+                cor.setColor(0xFFFF00FF);
+                setNomeCor("magenta");
+                break;
+            case 9:
+                cor.setColor(0xFF800080);
+                setNomeCor("roxo");
+                break;
+            case 10:
+                cor.setColor(0xFF808080);
+                setNomeCor("cinza");
+                break;
+        }
     }
 
-    protected void setRotulo(String rotulo){ this.rotulo = rotulo; }
+    public float getX() { return  this.posX; }
+
+    public float getY() { return  this.posY; }
+
+    public float getRaio() { return  this.raio; }
+
 }

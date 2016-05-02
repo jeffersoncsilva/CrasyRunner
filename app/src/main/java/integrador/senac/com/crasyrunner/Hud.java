@@ -14,6 +14,9 @@ public class Hud {
     private int dist;
     private int pt;
 
+    private long ultimoSegundo;
+    private long diferencaTempo;
+
     public Hud(){
         dist = 0;
         pt = 0;
@@ -23,11 +26,16 @@ public class Hud {
         cor.setTypeface(Typeface.DEFAULT_BOLD);
         pontos = "P: 0";
         distancia = "D: 0";
+        diferencaTempo = 1000;
+        ultimoSegundo = System.currentTimeMillis();
     }
 
-    public void update(){
-        dist +=(int)System.currentTimeMillis();
-        distancia = "D: " + dist;
+    public void update(long currentTimeMillis){
+        if(currentTimeMillis >= ultimoSegundo + diferencaTempo) {
+            dist += 1;
+            distancia = "D: " + dist;
+            ultimoSegundo = System.currentTimeMillis();
+        }
     }
 
     public void draw(Canvas canvas){
