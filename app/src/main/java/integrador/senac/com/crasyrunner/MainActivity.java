@@ -22,6 +22,10 @@ import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         call = CallbackManager.Factory.create();
+
         setContentView(R.layout.activity_main);
         LoginButton lbtn = (LoginButton) findViewById(R.id.login_button);
         lbtn.setReadPermissions("user_friends");
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
         //verifica se ja esta conectado ao facebook.
         verificaConexaoFace();
         /*PEGAR A KEY HASH PARA APP DO FACEBOOK.
@@ -102,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
                         public void onCompleted(GraphResponse response) {
                             /* handle the result */
                             Log.i("resposta", "algo aconteceu. : " + response.toString());
+                            JSONObject json = response.getJSONObject();
+                            if(json != null)
+                                Log.i("resposta", "Resp: " + json.toString());
+                            else
+                                Log.i("resposta","o json e null.");
                         }
                     }
             ).executeAsync();
