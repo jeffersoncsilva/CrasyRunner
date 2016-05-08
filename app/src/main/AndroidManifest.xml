@@ -32,6 +32,16 @@
         </activity>
 
         <activity
+            android:name=".RankJogo"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ConvidaAmigos"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name=".DificuldadeJogo"
             android:screenOrientation="portrait">
         </activity>

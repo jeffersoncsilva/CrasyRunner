@@ -75,13 +75,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rank(View v){
-        Log.i("rank", "mostrando rank do jogo.");
-        Button btn = (Button) findViewById(R.id.btnVoltar);
+        Intent rank = new Intent(MainActivity.this, RankJogo.class);
+        startActivity(rank);
+        finish();
     }
 
     public void sair(View v){
         finish();
         System.exit(0);
+    }
+
+    public void convida(View v){
+        Intent convite = new Intent(MainActivity.this, ConvidaAmigos.class);
+        startActivity(convite);
+        finish();
     }
 
     @Override
