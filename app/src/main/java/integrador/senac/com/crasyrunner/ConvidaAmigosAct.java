@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by Jefferson on 08/05/2016.
  */
-public class ConvidaAmigos extends Activity {
+public class ConvidaAmigosAct extends Activity {
     private Button btnVolta;
     private ListView lista;
     private ArrayList<Amigo> amigos;
@@ -28,7 +27,7 @@ public class ConvidaAmigos extends Activity {
         btnVolta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent inicio = new Intent(ConvidaAmigos.this, MainActivity.class);
+                Intent inicio = new Intent(ConvidaAmigosAct.this, MainActivity.class);
                 startActivity(inicio);
                 finish();
             }

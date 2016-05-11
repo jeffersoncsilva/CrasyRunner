@@ -3,18 +3,15 @@ package integrador.senac.com.crasyrunner;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.PopupWindow;
-
 import java.util.ArrayList;
 
 /**
  * Created by Jefferson on 19/04/2016.
  */
-public class Game extends SurfaceView implements Runnable, View.OnTouchListener {
+public class Game extends SurfaceView implements Runnable {
     //objeto que permite ter acesso ao canvas.
     private final SurfaceHolder holder = getHolder();
     private static boolean gameOver = false;
@@ -22,7 +19,7 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
     private Activity act;
     private Context context;
     private Background backJogo;
-    private ControleBolinhas elementos;
+    private ControleBolinhas bolinhasControl;
 
     private Jogador jogador;
 
@@ -40,7 +37,7 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         this.act = activity;
         Tela.IniciaTela(context);
         this.backJogo = new Background(1, context);
-        this.elementos = new ControleBolinhas(nivel);
+        this.bolinhasControl = new ControleBolinhas(nivel);
         this.jogador = new Jogador(context);
         this.hud = new Hud();
 
@@ -61,23 +58,18 @@ public class Game extends SurfaceView implements Runnable, View.OnTouchListener 
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent motion){
-        return  false;
-    }
-
     private void update(){
         currentTimeMillis = System.currentTimeMillis();
         this.backJogo.update();
-        this.elementos.update(currentTimeMillis);
+        this.bolinhasControl.update(currentTimeMillis);
         this.jogador.update();
         this.hud.update(currentTimeMillis);
-        colisaoElementos(elementos.getElementos());
+        colisaoElementos(bolinhasControl.getElementos());
     }
 
     private void drawTela(Canvas canvas){
         this.backJogo.draw(canvas);
-        this.elementos.draw(canvas);
+        this.bolinhasControl.draw(canvas);
         this.jogador.draw(canvas);
         this.hud.draw(canvas);
     }

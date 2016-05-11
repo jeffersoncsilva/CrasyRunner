@@ -20,8 +20,6 @@ public class ControleBolinhas {
         elementos = new ArrayList<>();
     }
 
-
-
     public void update(long currentTimeMillis){
         //verifica se esta na hora de criar o inimigo.
         if(currentTimeMillis >= ultimCriacaoBolinha + tempoCriaBolinha){

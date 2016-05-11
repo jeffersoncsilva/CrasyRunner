@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -23,7 +23,6 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.security.MessageDigest;
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void inciaJogo(View v){
-        Intent telaNivel = new Intent(MainActivity.this, DificuldadeJogo.class);
+        Intent telaNivel = new Intent(MainActivity.this, DificuldadeJogoAct.class);
         startActivity(telaNivel);
     }
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void convida(View v){
-        Intent convite = new Intent(MainActivity.this, ConvidaAmigos.class);
+        Intent convite = new Intent(MainActivity.this, ConvidaAmigosAct.class);
         startActivity(convite);
         finish();
     }

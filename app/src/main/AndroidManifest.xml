@@ -37,12 +37,12 @@
         </activity>
 
         <activity
-            android:name=".ConvidaAmigos"
+            android:name=".ConvidaAmigosAct"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".DificuldadeJogo"
+            android:name=".DificuldadeJogoAct"
             android:screenOrientation="portrait">
         </activity>
 

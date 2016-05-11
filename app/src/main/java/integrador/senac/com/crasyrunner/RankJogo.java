@@ -50,4 +50,5 @@ public class RankJogo extends Activity {
         amigos.add(new Amigo("Mariane", this, 5));
         amigos.add(new Amigo("Any", this, 6));
     }
+
 }

@@ -19,7 +19,6 @@ public class Amigo {
         this.id = id;
     }
 
-
     public Bitmap getFoto() {
         return foto;
     }
