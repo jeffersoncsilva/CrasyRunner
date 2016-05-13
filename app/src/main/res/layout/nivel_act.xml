@@ -28,25 +28,25 @@
             android:text="@string/facil"
             android:textSize="24dp"
             android:textAlignment="center"
-            android:onClick="facil"/>
+            android:onClick="escolheDificuldade"/>
 
         <Button
-            android:id="@+id/medio"
+            android:id="@+id/btnMedio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/medio"
             android:textSize="22dp"
             android:textAlignment="center"
-            android:onClick="medio"/>
+            android:onClick="escolheDificuldade"/>
 
         <Button
-            android:id="@+id/dificio"
+            android:id="@+id/btnDificio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dificio"
             android:textAlignment="center"
             android:textSize="18dp"
-            android:onClick="dificio"/>
+            android:onClick="escolheDificuldade"/>
 
     </LinearLayout>
 
