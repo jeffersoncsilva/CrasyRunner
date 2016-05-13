@@ -3,6 +3,7 @@ package integrador.senac.com.crasyrunner;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.PopupWindow;
@@ -27,6 +28,8 @@ public class Game extends SurfaceView implements Runnable {
 
     private Hud hud;
 
+    private int nivel;
+
     private long currentTimeMillis;
 
     public Game(Activity activity, int nivel){
@@ -37,16 +40,17 @@ public class Game extends SurfaceView implements Runnable {
         this.act = activity;
         Tela.IniciaTela(context);
         this.backJogo = new Background(1, context);
-        this.bolinhasControl = new ControleBolinhas(nivel);
         this.jogador = new Jogador(context);
+        this.bolinhasControl = new ControleBolinhas(nivel, this.jogador);
         this.hud = new Hud();
-
+        this.nivel = nivel;
         Thread thread = new Thread(this);
         thread.start();
     }
 
     @Override
     public void run(){
+
         while (!gameOver) {
             if (!holder.getSurface().isValid()) continue;
             //PRIMEIRO, update da fisica do jogo.
@@ -60,6 +64,7 @@ public class Game extends SurfaceView implements Runnable {
 
     private void update(){
         currentTimeMillis = System.currentTimeMillis();
+
         this.backJogo.update();
         this.bolinhasControl.update(currentTimeMillis);
         this.jogador.update();
@@ -77,22 +82,25 @@ public class Game extends SurfaceView implements Runnable {
     private void colisaoElementos(ArrayList<ElementoTela> el){
         //distancia = Math.sqrt( Math.pow( (x1 - x2),2 ) + Math.pow( (y1 - y2),2 ) );
         double distancia;
-        for(int i = 0; i < el.size(); i++){
-            ElementoTela e = el.get(i);
-            distancia = Math.sqrt(Math.pow((e.getX() - jogador.getX()), 2) + Math.pow((e.getY() - jogador.getY()), 2));
-            if(distancia <= (e.getRaio() * 2)){
-                //houve colisão com o player. compara se foi com uma bolinha da msm cor, se tiver sido, soma a pontuação, se não for GameOver.
-                if(e.getNomeCor().equals(jogador.getNomeCor())){
-                    hud.aumentaPontos(5);
-                    el.remove(i);
-                    continue;
-                }
-                else{
-                    gameOver = true;
-                    new GameOverTask(act).execute();
-                    break;
+        try {
+            for (int i = 0; i < el.size(); i++) {
+                ElementoTela e = el.get(i);
+                distancia = Math.sqrt(Math.pow((e.getX() - jogador.getX()), 2) + Math.pow((e.getY() - jogador.getY()), 2));
+                if (distancia <= (e.getRaio() * 2)) {
+                    //houve colisão com o player. compara se foi com uma bolinha da msm cor, se tiver sido, soma a pontuação, se não for GameOver.
+                    if (e.getNomeCor().equals(jogador.getNomeCor())) {
+                        hud.aumentaPontos(5);
+                        el.remove(i);
+                        continue;
+                    } else {
+                        gameOver = true;
+                        new GameOverTask(act).execute();
+                        break;
+                    }
                 }
             }
+        }catch (Exception e){
+            Log.e("erro",  "ERRO: " + e.toString() + " | " + e.getMessage());
         }
     }
 

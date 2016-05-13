@@ -2,6 +2,8 @@ package integrador.senac.com.crasyrunner;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import java.util.EventListener;
 import java.util.Random;
 
 /**
@@ -19,6 +21,12 @@ public abstract class ElementoTela {
         raio = (int)(Tela.getLargura() * 0.05f);
         cor = new Paint();
         mudaCor();
+    }
+
+    public ElementoTela(Object[] obj){
+        raio = (int)(Tela.getLargura() * 0.05f);
+        cor = (Paint)obj[0];
+        this.nomeCor = (String)obj[1];
     }
 
     protected float geraPosicaoAleatoria(){
@@ -85,6 +93,13 @@ public abstract class ElementoTela {
                 setNomeCor("cinza");
                 break;
         }
+    }
+
+    public Object[] getObjCor(){
+        Object[] obj = new Object[2];
+        obj[0] = this.cor;
+        obj[1] = this.nomeCor;
+        return obj;
     }
 
     public float getX() { return  this.posX; }

@@ -11,6 +11,12 @@ public class Bolinhas extends ElementoTela {
         posX = geraPosicaoAleatoria();
     }
 
+    public Bolinhas(Object[] obj){
+        super(obj);
+        posY = -(raio * 2);
+        posX = geraPosicaoAleatoria();
+    }
+
     @Override
     public void update() {
         posY += velocidade;
