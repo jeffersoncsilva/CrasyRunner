@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -25,6 +28,7 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -93,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("activityresult", "foi recebido o resultado de algo.");
         call.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         if(AccessToken.getCurrentAccessToken() != null) {
             acToken = AccessToken.getCurrentAccessToken();
             prof = Profile.getCurrentProfile();
+
             Log.i("toenatual", "User: " + acToken.getUserId());
             Log.i("toenatual", "Profile: " + prof.getName());
 

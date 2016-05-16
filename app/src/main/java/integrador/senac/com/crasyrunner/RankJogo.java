@@ -14,6 +14,7 @@ import java.util.List;
  * Created by Jefferson on 08/05/2016.
  */
 public class RankJogo extends Activity {
+    private final String URL_GET_SCORE = "http://acesso.ws/ranking/services/score/listAllScore/ea4a1c89-6530-4925-b9cb-0db59be19232";
     private Button btnVoltar;
     private ListView lista;
 
@@ -22,7 +23,7 @@ public class RankJogo extends Activity {
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
-        criaAmigos();
+        //criaAmigos();
         setContentView(R.layout.rank);
         lista = (ListView) findViewById(R.id.listView);
 
@@ -36,9 +37,9 @@ public class RankJogo extends Activity {
             }
         });
 
-        //seta os amigos na tela.
-        ListaAmigosAdapter adapter = new ListaAmigosAdapter(amigos, this);
-        lista.setAdapter(adapter);
+        //pega a lista de amigos do servidor e mostra na tela
+        new ListaAmigosTask(this, lista).execute();
+
     }
 
     private void criaAmigos(){

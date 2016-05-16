@@ -48,4 +48,5 @@ public class Hud {
         pontos = "P: " + pt;
     }
 
+    public int getPt(){return  this.pt; }
 }

@@ -94,7 +94,7 @@ public class Game extends SurfaceView implements Runnable {
                         continue;
                     } else {
                         gameOver = true;
-                        new GameOverTask(act).execute();
+                        new GameOverTask(act, hud.getPt()).execute();
                         break;
                     }
                 }

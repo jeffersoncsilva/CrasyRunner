@@ -25,24 +25,61 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
 /**
  * Created by Jefferson on 25/04/2016.
  */
 public class GameOverTask extends AsyncTask<Void, Void, Void> {
+    private final String gameId = "ea4a1c89-6530-4925-b9cb-0db59be19232";
     private Activity act;
     private long time;
     private PopupWindow pw;
     private ShareFb share;
+    private int score;
 
 
-    public GameOverTask(Activity act){
+    public GameOverTask(Activity act, int score){
         this.act = act;
+        this.score = score;
         this.share = new ShareFb(act);
     }
 
     @Override
     protected Void doInBackground(Void... params) {
         try{
+            JSONObject jsonObject = new JSONObject();
+            try {
+                Profile prof = Profile.getCurrentProfile();
+                jsonObject.put("name", prof.getName());
+                jsonObject.put("gameId", gameId);
+                jsonObject.put("score", score);
+                jsonObject.put("facebookId", prof.getId());
+
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost post = new HttpPost("http://acesso.ws/ranking/services/score/sendScore");
+
+                post.setEntity(new StringEntity(jsonObject.toString(), "UTF8"));
+                post.setHeader("Content-type", "application/json");
+
+                Log.i("score", jsonObject.toString());
+                HttpResponse resp = httpclient.execute(post);
+
+                if (resp != null) {
+                    Log.i("score", "Status: " + resp.getStatusLine().getStatusCode());
+                }
+            } catch (Exception e) {
+                Log.e("score", e.getMessage(), e);
+                e.printStackTrace();
+            }
             Thread.sleep(100);
             time = System.currentTimeMillis();
         }
