@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -8,10 +8,28 @@
     <ImageView
         android:id="@+id/foto"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@drawable/inimigo1"/>
 
     <TextView
         android:id="@+id/nome"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent" />
-</LinearLayout>
+        android:layout_width="wrap_content"
+        android:text="nome"
+        android:textSize="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/foto"
+        android:layout_toEndOf="@+id/foto" />
+
+    <TextView
+        android:id="@+id/pontos"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="18dp"
+        android:layout_marginTop="10dp"
+        android:text="pontos"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

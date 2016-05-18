@@ -49,6 +49,9 @@ public class ListaAmigosAdapter extends BaseAdapter {
         TextView nome = (TextView) linha.findViewById(R.id.nome);
         nome.setText(amigo.getNome());
 
+        TextView pt = (TextView) linha.findViewById(R.id.pontos);
+        pt.setText(String.valueOf(amigo.getPontos()));
+
         ImageView img = (ImageView) linha.findViewById(R.id.foto);
         img.setImageBitmap(amigo.getFoto());
 

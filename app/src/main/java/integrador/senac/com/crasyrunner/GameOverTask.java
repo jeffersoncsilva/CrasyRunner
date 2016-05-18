@@ -55,37 +55,36 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        try{
-            JSONObject jsonObject = new JSONObject();
             try {
                 Profile prof = Profile.getCurrentProfile();
-                jsonObject.put("name", prof.getName());
-                jsonObject.put("gameId", gameId);
-                jsonObject.put("score", score);
-                jsonObject.put("facebookId", prof.getId());
+                if(prof != null) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name", prof.getFirstName());
+                    jsonObject.put("gameId", gameId);
+                    jsonObject.put("score", score);
+                    jsonObject.put("facebookId", prof.getId());
 
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost post = new HttpPost("http://acesso.ws/ranking/services/score/sendScore");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost post = new HttpPost("http://acesso.ws/ranking/services/score/sendScore");
 
-                post.setEntity(new StringEntity(jsonObject.toString(), "UTF8"));
-                post.setHeader("Content-type", "application/json");
+                    post.setEntity(new StringEntity(jsonObject.toString(), "UTF8"));
+                    post.setHeader("Content-type", "application/json");
 
-                Log.i("score", jsonObject.toString());
-                HttpResponse resp = httpclient.execute(post);
+                    HttpResponse resp = httpclient.execute(post);
 
-                if (resp != null) {
-                    Log.i("score", "Status: " + resp.getStatusLine().getStatusCode());
+                    if (resp != null) {
+                        Log.i("score", "Status: " + resp.getStatusLine().getStatusCode());
+                    }
+                }
+                else{
+                    Log.e("score", "usuario nao logado no facebook.");
+                    //Toast.makeText(act, "Loguese para poder compartilhar sua pontuação com outros jogadores!", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
+                //Toast.makeText(act, "ERRO: " + e.toString(), Toast.LENGTH_SHORT).show();
                 Log.e("score", e.getMessage(), e);
                 e.printStackTrace();
             }
-            Thread.sleep(100);
-            time = System.currentTimeMillis();
-        }
-        catch(InterruptedException e ){
-            Log.i("gameovertask", "ola thread de gameover.");
-        }
         return null;
     }
 
@@ -120,6 +119,7 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
         }
         catch(Exception e){
+            Toast.makeText(act, "ERRO: " + e.toString(), Toast.LENGTH_SHORT).show();
             Log.i("gameovertaskerro", "Erro: " + e.toString());
         }
     }
