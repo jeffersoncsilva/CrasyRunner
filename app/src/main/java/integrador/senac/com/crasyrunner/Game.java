@@ -3,9 +3,11 @@ package integrador.senac.com.crasyrunner;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.PopupWindow;
 import java.util.ArrayList;
 
@@ -16,31 +18,21 @@ public class Game extends SurfaceView implements Runnable {
     //objeto que permite ter acesso ao canvas.
     private final SurfaceHolder holder = getHolder();
     private static boolean gameOver = false;
-
     private Activity act;
-    private Context context;
-    private Background backJogo;
     private ControleBolinhas bolinhasControl;
-
     private Jogador jogador;
-
-    private PopupWindow pw; //para poder exibir a tela de fim de jogo.
-
     private Hud hud;
-
     private int nivel;
-
     private long currentTimeMillis;
+    private boolean mudaCorFundo;
 
     public Game(Activity activity, int nivel){
         super(activity.getBaseContext());
 
         this.gameOver = false;
-        this.context = activity.getBaseContext();
         this.act = activity;
-        Tela.IniciaTela(context);
-        this.backJogo = new Background(1, context);
-        this.jogador = new Jogador(context);
+        Tela.IniciaTela(activity.getBaseContext());
+        this.jogador = new Jogador(activity.getBaseContext());
         this.bolinhasControl = new ControleBolinhas(nivel, this.jogador);
         this.hud = new Hud();
         this.nivel = nivel;
@@ -64,8 +56,6 @@ public class Game extends SurfaceView implements Runnable {
 
     private void update(){
         currentTimeMillis = System.currentTimeMillis();
-
-        this.backJogo.update();
         this.bolinhasControl.update(currentTimeMillis);
         this.jogador.update();
         this.hud.update(currentTimeMillis);
@@ -73,24 +63,29 @@ public class Game extends SurfaceView implements Runnable {
     }
 
     private void drawTela(Canvas canvas){
-        this.backJogo.draw(canvas);
+        canvas.drawColor(Color.argb(255,0,0,125));
         this.bolinhasControl.draw(canvas);
         this.jogador.draw(canvas);
         this.hud.draw(canvas);
     }
 
     private void colisaoElementos(ArrayList<ElementoTela> el){
-        //distancia = Math.sqrt( Math.pow( (x1 - x2),2 ) + Math.pow( (y1 - y2),2 ) );
         double distancia;
+        ElementoTela e;
         try {
             for (int i = 0; i < el.size(); i++) {
-                ElementoTela e = el.get(i);
+                e = el.get(i);
                 distancia = Math.sqrt(Math.pow((e.getX() - jogador.getX()), 2) + Math.pow((e.getY() - jogador.getY()), 2));
                 if (distancia <= (e.getRaio() * 2)) {
-                    //houve colisão com o player. compara se foi com uma bolinha da msm cor, se tiver sido, soma a pontuação, se não for GameOver.
                     if (e.getNomeCor().equals(jogador.getNomeCor())) {
                         hud.aumentaPontos(5);
                         el.remove(i);
+                        if(nivel == 2){
+                            jogador.mudaCor();
+                        }else if (nivel == 3){
+                            jogador.mudaCor();
+                            mudaCorFundo = true;
+                        }
                         continue;
                     } else {
                         gameOver = true;
@@ -99,9 +94,10 @@ public class Game extends SurfaceView implements Runnable {
                     }
                 }
             }
-        }catch (Exception e){
-            Log.e("erro",  "ERRO: " + e.toString() + " | " + e.getMessage());
+        }catch (Exception ex){
+            Log.e("erro",  "ERRO: " + ex.toString() + " | " + ex.getMessage());
         }
     }
+
 
 }

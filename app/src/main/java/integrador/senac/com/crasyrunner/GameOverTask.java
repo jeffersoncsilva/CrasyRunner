@@ -53,7 +53,6 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
     public GameOverTask(Activity act, int score){
         this.act = act;
         this.score = score;
-        //this.share = new ShareFb(act);
         this.conectFb = false;
     }
 
@@ -66,16 +65,10 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         try {
-            //prepara para iniciar o shareFb
-            //share.preparaCompartilhamento();
-            //cria a tela de GameOver.
             LayoutInflater inflater = (LayoutInflater) this.act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.game_over, null, false);
 
             Button btInicio = (Button) view.findViewById(R.id.btnVoltarInicio);//pega referencia para o botao de inicio de jogo.
-            final LoginButton lbtn = (LoginButton) view.findViewById(R.id.login_button);//pega referencia para o botao de conexao com facebook.
-
-            //evento do botao inicio jogo.
             btInicio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,39 +79,10 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
 
             //verifica se o jogo está conectado no facebook, se estiver mostra o botao de compartilhar se nao estiver mostra o botao de se conectar.
             if(conectFb) {
-                lbtn.setVisibility(View.INVISIBLE);
+                Toast.makeText(act, "Pontuação enviada para o servidor. " , Toast.LENGTH_SHORT).show();
             }else{
-                lbtn.setVisibility(View.VISIBLE);
+                Toast.makeText(act, "Pontuação não enviada. Conecte-se para poder participar do rank." , Toast.LENGTH_SHORT).show();
             }
-
-            //evento que loga no facebook.
-            CallbackManager call = CallbackManager.Factory.create();
-            lbtn.setReadPermissions("user_friends");
-            lbtn.registerCallback(call, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    Log.i("facebook", "houve um tipo de sucesso: " + loginResult.getAccessToken().getUserId());
-                    lbtn.setVisibility(View.INVISIBLE);
-                    //cria uma nova thread que ira enviar a pontuação para o servidor.
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            enviaPontuacao();
-                        }
-                    }.start();
-                }
-
-                @Override
-                public void onCancel() {
-                    Log.i("facebook", "houve um tipo de cancelamento.");
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Log.i("facebook", "houve um tipo de fracasso. ERRO: " + error.toString() + " | " + error.getMessage());
-                }
-
-            });
 
             //mostra na tela.
             pw = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -126,7 +90,7 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
         }
         catch(Exception e){
-            Toast.makeText(act, "ERRO: " + e.toString(), Toast.LENGTH_SHORT).show();
+
             Log.i("gameovertaskerro", "Erro: " + e.toString());
         }
     }
@@ -135,20 +99,16 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         try {
             Profile prof = Profile.getCurrentProfile();
             if(prof != null) {
-                Log.i("score", "envinando pontuacao.");
                 conectFb = true;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", prof.getFirstName());
                 jsonObject.put("gameId", gameId);
                 jsonObject.put("score", score);
                 jsonObject.put("facebookId", prof.getId());
-
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost post = new HttpPost("http://acesso.ws/ranking/services/score/sendScore");
-
                 post.setEntity(new StringEntity(jsonObject.toString(), "UTF8"));
                 post.setHeader("Content-type", "application/json");
-
                 HttpResponse resp = httpclient.execute(post);
 
                 if (resp != null) {

@@ -2,6 +2,7 @@ package integrador.senac.com.crasyrunner;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.EventListener;
 import java.util.Random;
@@ -14,13 +15,20 @@ public abstract class ElementoTela {
     protected int raio;
     protected float posX;
     protected float posY;
-    protected float velocidade = 5.0f;
+    protected float velocidade;
     protected String nomeCor;
 
     public ElementoTela(){
         raio = (int)(Tela.getLargura() * 0.05f);
         cor = new Paint();
         mudaCor();
+        velocidade = defineVelocidade();
+    }
+
+    private float defineVelocidade(){
+        float x = (float)0.01 * Tela.getAltura();
+        Log.i("velocidade", "velocidade definida de: " + x);
+        return x;
     }
 
     public ElementoTela(Object[] obj){
