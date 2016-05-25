@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
 /**
  * Created by Jefferson on 22/04/2016.
@@ -11,13 +12,13 @@ import android.graphics.Canvas;
 public class Jogador extends  ElementoTela{
     private Acelerometro ac;
 
-    public Jogador(Context context){
-        super();
+    public Jogador(Context context, int nivel){
+        super(nivel);
         //define a posição inicial do jogador.
         this.posX = (Tela.getLargura() / 2) - (raio / 2);
         this.posY = (Tela.getAltura() - raio - 20);
         this.ac = new Acelerometro(context);
-        setVelocidade(3.0f);
+        setVelocidade(defineVelocidadeJogador());
     }
 
     public void update() {
@@ -33,5 +34,14 @@ public class Jogador extends  ElementoTela{
             //esta indo para direita.
             posX -= (acX * getVelocidade());
         }
+    }
+
+    public void aumentaVelocidade(){
+        float x = (float)0.004 * Tela.getLargura();
+        setVelocidade(getVelocidade()+x);
+    }
+
+    private float defineVelocidadeJogador(){
+        return (float)0.008 * Tela.getLargura();
     }
 }

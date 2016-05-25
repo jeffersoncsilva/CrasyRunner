@@ -5,18 +5,14 @@ package integrador.senac.com.crasyrunner;
  */
 public class Bolinhas extends ElementoTela {
 
-    private static int codCount;
-
-    private int codigo = codCount++;
-
-    public Bolinhas(){
-        super();
+    public Bolinhas(int nivel){
+        super(nivel);
         posY = -(raio * 2);
         posX = geraPosicaoAleatoria();
     }
 
-    public Bolinhas(Object[] obj){
-        super(obj);
+    public Bolinhas(Cor cor){
+        super(cor);
         posY = -(raio * 2);
         posX = geraPosicaoAleatoria();
     }

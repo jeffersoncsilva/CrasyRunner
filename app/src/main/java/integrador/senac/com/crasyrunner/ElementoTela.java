@@ -1,43 +1,31 @@
 package integrador.senac.com.crasyrunner;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.Log;
-
-import java.util.EventListener;
 import java.util.Random;
 
 /**
  * Created by Jefferson on 27/04/2016.
  */
 public abstract class ElementoTela {
-    private Paint cor;
+    public static float TaxaVelocidade = 0.01f;
+    protected Cor cor;
     protected int raio;
     protected float posX;
     protected float posY;
     private float velocidade;
-    protected String nomeCor;
+    private int nivel;
 
-    public ElementoTela(){
-        raio = (int)(Tela.getLargura() * 0.05f);
-        cor = new Paint();
-        mudaCor();
+    public ElementoTela(int nivel){
+        this.nivel = nivel;
+        raio = defineRaio();
+        cor = Cores.CriaCor(nivel);
         setVelocidade(defineVelocidade());
-        Log.i("velocidade", "Velocidade: " + this.velocidade);
     }
 
-    private float defineVelocidade(){
-        float x = (float)0.01 * Tela.getAltura();
-        Log.i("velocidade", "velocidade definida de: " + x);
-        return x;
-    }
-
-    public ElementoTela(Object[] obj){
-        raio = (int)(Tela.getLargura() * 0.05f);
-        cor = (Paint)obj[0];
-        this.nomeCor = (String)obj[1];
+    public ElementoTela(Cor cor){
+        raio =  defineRaio();
+        this.cor = cor;
         setVelocidade(defineVelocidade());
-        Log.i("velocidade", "Velocidade: " + this.velocidade);
     }
 
     protected float geraPosicaoAleatoria(){
@@ -45,84 +33,26 @@ public abstract class ElementoTela {
         return  (r.nextInt((Tela.getLargura() - (raio * 2)))  + raio);
     }
 
-    protected void setNomeCor(String nomeCor){ this.nomeCor = nomeCor; }
+    protected void setVelocidade(float velocidade){
+        this.velocidade = velocidade;
+    }
+
+    protected float getVelocidade(){return this.velocidade;}
 
     public abstract void update();
 
     public void draw(Canvas canvas){
-        canvas.drawCircle(this.posX, this.posY, raio, cor);
+        canvas.drawCircle(this.posX, this.posY, raio, cor.getCor());
     }
 
     public boolean saiuTela(){
         return ((this.posY - raio) >= Tela.getAltura());
     }
 
-    public String getNomeCor(){return this.nomeCor;}
-
-    public void setVelocidade(float velocidade){
-        this.velocidade = velocidade;
-    }
-
-    public float getVelocidade(){return this.velocidade;}
+    public String getNomeCor(){return this.cor.getNomeCor();}
 
     public void mudaCor(){
-        Random r = new Random();
-        int q = r.nextInt(10);
-        switch(q){
-            case 1:
-
-                cor.setARGB(255,255,0,0);
-                setNomeCor("vermelho");
-                break;
-            case 2:
-
-                cor.setARGB(255,0,0,139);
-                setNomeCor("azulescuro");
-                break;
-            case 3:
-
-                cor.setARGB(255,30,144,255);
-                setNomeCor("azulclaro");
-                break;
-            case 4:
-
-                cor.setARGB(255,0,128,0);
-                setNomeCor("verde");
-                break;
-            case 5:
-
-                cor.setARGB(255,255,255,0);
-                setNomeCor("amarelo");
-                break;
-            case 6:
-
-                cor.setARGB(255, 255,165,0);
-                setNomeCor("laranjado");
-                break;
-            case 7:
-                cor.setColor(0xFFFF1493);
-                setNomeCor("rosa");
-                break;
-            case 8:
-                cor.setColor(0xFFFF00FF);
-                setNomeCor("magenta");
-                break;
-            case 9:
-                cor.setColor(0xFF800080);
-                setNomeCor("roxo");
-                break;
-            case 10:
-                cor.setColor(0xFF808080);
-                setNomeCor("cinza");
-                break;
-        }
-    }
-
-    public Object[] getObjCor(){
-        Object[] obj = new Object[2];
-        obj[0] = this.cor;
-        obj[1] = this.nomeCor;
-        return obj;
+        this.cor = Cores.CriaCor(nivel);
     }
 
     public float getX() { return  this.posX; }
@@ -131,4 +61,13 @@ public abstract class ElementoTela {
 
     public float getRaio() { return  this.raio; }
 
+    public Cor getCor(){return this.cor;}
+
+    private float defineVelocidade(){
+        return (float)TaxaVelocidade * Tela.getAltura();
+    }
+
+    private int defineRaio(){
+        return (int) (Tela.getLargura() * 0.05f);
+    }
 }

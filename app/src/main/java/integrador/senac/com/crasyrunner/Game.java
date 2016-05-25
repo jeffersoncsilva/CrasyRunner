@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -23,18 +24,18 @@ public class Game extends SurfaceView implements Runnable {
     private Jogador jogador;
     private Hud hud;
     private int nivel;
-    private long currentTimeMillis;
-    private boolean mudaCorFundo;
+    private Background back;
 
     public Game(Activity activity, int nivel){
         super(activity.getBaseContext());
         this.gameOver = false;
         this.act = activity;
         Tela.IniciaTela(activity.getBaseContext());
-        this.jogador = new Jogador(activity.getBaseContext());
+        this.jogador = new Jogador(activity.getBaseContext(), nivel);
         this.bolinhasControl = new ControleBolinhas(nivel, this.jogador);
         this.hud = new Hud();
         this.nivel = nivel;
+        this.back = new Background(nivel);
         Thread thread = new Thread(this);
         thread.start();
     }
@@ -53,7 +54,7 @@ public class Game extends SurfaceView implements Runnable {
     }
 
     private void update(){
-        currentTimeMillis = System.currentTimeMillis();
+        long currentTimeMillis = System.currentTimeMillis();
         this.bolinhasControl.update(currentTimeMillis);
         this.jogador.update();
         this.hud.update(currentTimeMillis);
@@ -61,7 +62,7 @@ public class Game extends SurfaceView implements Runnable {
     }
 
     private void drawTela(Canvas canvas){
-        canvas.drawColor(Color.argb(255,0,0,125));
+        this.back.draw(canvas);
         this.bolinhasControl.draw(canvas);
         this.jogador.draw(canvas);
         this.hud.draw(canvas);
@@ -82,7 +83,6 @@ public class Game extends SurfaceView implements Runnable {
                             jogador.mudaCor();
                         }else if (nivel == 3){
                             jogador.mudaCor();
-                            mudaCorFundo = true;
                         }
                         continue;
                     } else {
@@ -96,6 +96,5 @@ public class Game extends SurfaceView implements Runnable {
             Log.e("erro",  "ERRO: " + ex.toString() + " | " + ex.getMessage());
         }
     }
-
 
 }
