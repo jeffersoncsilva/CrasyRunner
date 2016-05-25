@@ -15,14 +15,15 @@ public abstract class ElementoTela {
     protected int raio;
     protected float posX;
     protected float posY;
-    protected float velocidade;
+    private float velocidade;
     protected String nomeCor;
 
     public ElementoTela(){
         raio = (int)(Tela.getLargura() * 0.05f);
         cor = new Paint();
         mudaCor();
-        velocidade = defineVelocidade();
+        setVelocidade(defineVelocidade());
+        Log.i("velocidade", "Velocidade: " + this.velocidade);
     }
 
     private float defineVelocidade(){
@@ -35,6 +36,8 @@ public abstract class ElementoTela {
         raio = (int)(Tela.getLargura() * 0.05f);
         cor = (Paint)obj[0];
         this.nomeCor = (String)obj[1];
+        setVelocidade(defineVelocidade());
+        Log.i("velocidade", "Velocidade: " + this.velocidade);
     }
 
     protected float geraPosicaoAleatoria(){
@@ -56,32 +59,44 @@ public abstract class ElementoTela {
 
     public String getNomeCor(){return this.nomeCor;}
 
+    public void setVelocidade(float velocidade){
+        this.velocidade = velocidade;
+    }
+
+    public float getVelocidade(){return this.velocidade;}
+
     public void mudaCor(){
         Random r = new Random();
         int q = r.nextInt(10);
         switch(q){
             case 1:
-                cor.setColor(0xFFFF0000);
+
+                cor.setARGB(255,255,0,0);
                 setNomeCor("vermelho");
                 break;
             case 2:
-                cor.setColor(0xFF0000FF);
+
+                cor.setARGB(255,0,0,139);
                 setNomeCor("azulescuro");
                 break;
             case 3:
-                cor.setColor(0xFF00BFFF);
+
+                cor.setARGB(255,30,144,255);
                 setNomeCor("azulclaro");
                 break;
             case 4:
-                cor.setColor(0xFF00FF00);
+
+                cor.setARGB(255,0,128,0);
                 setNomeCor("verde");
                 break;
             case 5:
-                cor.setColor(0xFFFFFF00);
+
+                cor.setARGB(255,255,255,0);
                 setNomeCor("amarelo");
                 break;
             case 6:
-                cor.setColor(0xFFFF4500);
+
+                cor.setARGB(255, 255,165,0);
                 setNomeCor("laranjado");
                 break;
             case 7:

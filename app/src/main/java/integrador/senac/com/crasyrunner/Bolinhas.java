@@ -5,6 +5,10 @@ package integrador.senac.com.crasyrunner;
  */
 public class Bolinhas extends ElementoTela {
 
+    private static int codCount;
+
+    private int codigo = codCount++;
+
     public Bolinhas(){
         super();
         posY = -(raio * 2);
@@ -19,7 +23,7 @@ public class Bolinhas extends ElementoTela {
 
     @Override
     public void update() {
-        posY += velocidade;
+        posY += getVelocidade();
     }
 
 

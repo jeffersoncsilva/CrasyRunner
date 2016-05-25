@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Jefferson on 27/04/2016.
@@ -31,24 +32,32 @@ public class ControleBolinhas {
         //cria a bolinha de cor aleatoria.
         if (currentTimeMillis >= ultimCriacaoBolinha + intervaloCriacaoBolinha) {
             criaBolinha(currentTimeMillis);
+            Log.e("bolinhaaleatoria", "bolinha aleatoria criada.");
         }
         //cria a bolinha da cor do jogador.
         if(currentTimeMillis >= ultimaBolinhaCorJogador + intervaloBolinhaJogador){
             criaBolinaJogador(currentTimeMillis);
+            Log.e("bolinhajogador", "bolinha da cor do jogador criada.");
         }
 
 
         //atualiza update de cada bolinha e verifica se esta saiu da tela.
+        List<Integer> itensRemover = new ArrayList<>();
         for(int i = 0; i < elementos.size(); i++) {
             ElementoTela en = elementos.get(i);
             en.update();
             if(en.saiuTela()){
-                elementos.remove(i);
+                itensRemover.add(i);
             }
+        }
+        for(Integer i : itensRemover){
+            elementos.remove((int)i);
+            Log.i("bolinhas", String.format("removido: %d, qtd bolinhas: %d", i, elementos.size()));
         }
     }
 
     public void draw(Canvas canvas){
+        Log.e("desenhobolinhas", "QTD bolinhas: " + elementos.size());
         for(ElementoTela en : elementos)
             en.draw(canvas);
     }
@@ -68,16 +77,16 @@ public class ControleBolinhas {
     private void defineTempos(){
         switch (nivel){
             case 1:
-                intervaloBolinhaJogador = 800;
-                intervaloCriacaoBolinha = 1300;
+                intervaloBolinhaJogador = 2000;
+                intervaloCriacaoBolinha = 1000;
                 break;
             case 2:
-                intervaloBolinhaJogador = 1100;
-                intervaloCriacaoBolinha = 1100;
+                intervaloBolinhaJogador = 2000;
+                intervaloCriacaoBolinha = 1000;
                 break;
             case 3:
-                intervaloCriacaoBolinha = 800;
-                intervaloBolinhaJogador = 1300;
+                intervaloCriacaoBolinha = 2000;
+                intervaloBolinhaJogador = 1000;
                 break;
         }
     }

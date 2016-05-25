@@ -28,7 +28,6 @@ public class Game extends SurfaceView implements Runnable {
 
     public Game(Activity activity, int nivel){
         super(activity.getBaseContext());
-
         this.gameOver = false;
         this.act = activity;
         Tela.IniciaTela(activity.getBaseContext());
@@ -42,7 +41,6 @@ public class Game extends SurfaceView implements Runnable {
 
     @Override
     public void run(){
-
         while (!gameOver) {
             if (!holder.getSurface().isValid()) continue;
             //PRIMEIRO, update da fisica do jogo.
