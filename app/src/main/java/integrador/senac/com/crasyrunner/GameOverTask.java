@@ -46,7 +46,6 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
     private Activity act;
     private long time;
     private PopupWindow pw;
-   //private ShareFb share;
     private int score;
     private boolean conectFb;
 
@@ -96,6 +95,7 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void enviaPontuacao(){
+
         try {
             Profile prof = Profile.getCurrentProfile();
             if(prof != null) {

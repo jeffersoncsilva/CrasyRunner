@@ -79,6 +79,7 @@ public class Game extends SurfaceView implements Runnable {
                     if (e.getNomeCor().equals(jogador.getNomeCor())) {
                         hud.aumentaPontos(5);
                         el.remove(i);
+                        //dispara som vitoria
                         if(nivel == 2){
                             jogador.mudaCor();
                         }else if (nivel == 3){
@@ -86,6 +87,7 @@ public class Game extends SurfaceView implements Runnable {
                         }
                         continue;
                     } else {
+                        //dispara som de derrota
                         gameOver = true;
                         new GameOverTask(act, hud.getPt()).execute();
                         break;

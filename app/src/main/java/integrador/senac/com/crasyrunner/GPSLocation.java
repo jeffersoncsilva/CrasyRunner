@@ -1,0 +1,57 @@
+package integrador.senac.com.crasyrunner;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+/**
+ * Created by Jefferson on 30/05/2016.
+ */
+public class GPSLocation implements LocationListener {
+    private LocationManager locationManager;
+
+    private double latitude;
+    private double longitude;
+
+    public GPSLocation(Activity act) {
+        locationManager = (LocationManager) act.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 50, this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    public double getLatitude(){return this.latitude; }
+    public double getLongitude(){return this.longitude;}
+}

@@ -25,6 +25,9 @@ import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
@@ -36,10 +39,19 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager call;
     private AccessToken acToken;
     private Profile prof;
+    private GPSLocation gpsLoc;
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.gpsLoc = new GPSLocation(this);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         call = CallbackManager.Factory.create();
@@ -70,25 +82,28 @@ public class MainActivity extends AppCompatActivity {
         /*PEGAR A KEY HASH PARA APP DO FACEBOOK.
         pegaKeyHash();
         */
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void inciaJogo(View v){
+    public void inciaJogo(View v) {
         Intent telaNivel = new Intent(MainActivity.this, DificuldadeJogoAct.class);
         startActivity(telaNivel);
     }
 
-    public void rank(View v){
+    public void rank(View v) {
         Intent rank = new Intent(MainActivity.this, RankJogo.class);
         startActivity(rank);
         finish();
     }
 
-    public void sair(View v){
+    public void sair(View v) {
         finish();
         System.exit(0);
     }
 
-    public void convida(View v){
+    public void convida(View v) {
         Intent convite = new Intent(MainActivity.this, ConvidaAmigosAct.class);
         startActivity(convite);
         finish();
@@ -100,14 +115,10 @@ public class MainActivity extends AppCompatActivity {
         call.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void verificaConexaoFace(){
-        if(AccessToken.getCurrentAccessToken() != null) {
+    private void verificaConexaoFace() {
+        if (AccessToken.getCurrentAccessToken() != null) {
             acToken = AccessToken.getCurrentAccessToken();
             prof = Profile.getCurrentProfile();
-
-            Log.i("toenatual", "User: " + acToken.getUserId());
-            Log.i("toenatual", "Profile: " + prof.getName());
-
             //parte responsavel por pegar os amigos no facebook.
             new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
@@ -119,17 +130,17 @@ public class MainActivity extends AppCompatActivity {
                             /* handle the result */
                             Log.i("resposta", "algo aconteceu. : " + response.toString());
                             JSONObject json = response.getJSONObject();
-                            if(json != null)
+                            if (json != null)
                                 Log.i("resposta", "Resp: " + json.toString());
                             else
-                                Log.i("resposta","o json e null.");
+                                Log.i("resposta", "o json e null.");
                         }
                     }
             ).executeAsync();
         }
     }
 
-    private void pegaKeyHash(){
+    private void pegaKeyHash() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "integrador.senac.com.crasyrunner",
@@ -146,4 +157,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://integrador.senac.com.crasyrunner/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://integrador.senac.com.crasyrunner/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }
