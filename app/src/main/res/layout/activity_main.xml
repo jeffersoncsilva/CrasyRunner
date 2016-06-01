@@ -52,14 +52,6 @@
             android:textAlignment="center"
             android:textSize="18dp"
             android:onClick="sair"/>
-        <Button
-            android:id="@+id/btnConvite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Convidar amigos"
-            android:textAlignment="center"
-            android:textSize="18dp"
-            android:onClick="convida"/>
 
 
     </LinearLayout>

@@ -28,14 +28,15 @@ public class Game extends SurfaceView implements Runnable {
 
     public Game(Activity activity, int nivel){
         super(activity.getBaseContext());
+        Tela.IniciaTela(activity.getBaseContext());
         this.gameOver = false;
         this.act = activity;
-        Tela.IniciaTela(activity.getBaseContext());
         this.jogador = new Jogador(activity.getBaseContext(), nivel);
         this.bolinhasControl = new ControleBolinhas(nivel, this.jogador);
         this.hud = new Hud();
         this.nivel = nivel;
         this.back = new Background(nivel);
+
         Thread thread = new Thread(this);
         thread.start();
     }

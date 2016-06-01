@@ -25,8 +25,8 @@ public class GPSLocation implements LocationListener {
             ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 50, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 50, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 50, this);
     }
 
     @Override

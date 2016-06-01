@@ -1,7 +1,6 @@
 package integrador.senac.com.crasyrunner;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,36 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
-
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.Profile;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.facebook.share.ShareApi;
-import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
@@ -60,6 +40,17 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         this.act = act;
         this.score = score;
         this.conectFb = false;
+
+
+    }
+
+    @Override
+    protected void onPreExecute() {
+        act.runOnUiThread(new Runnable(){
+            public void run(){
+                mostraTelaFimJogo();
+            }
+        });
     }
 
     @Override
@@ -70,40 +61,10 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-        try {
-            LayoutInflater inflater = (LayoutInflater) this.act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.game_over, null, false);
-
-            Button btInicio = (Button) view.findViewById(R.id.btnVoltarInicio);//pega referencia para o botao de inicio de jogo.
-            btInicio.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    act.finish();
-                    pw.dismiss();
-                }
-            });
-
-            //verifica se o jogo está conectado no facebook, se estiver mostra o botao de compartilhar se nao estiver mostra o botao de se conectar.
-            if(conectFb) {
-                Toast.makeText(act, "Pontuação enviada para o servidor. " , Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(act, "Pontuação não enviada. Conecte-se para poder participar do rank." , Toast.LENGTH_SHORT).show();
-            }
-
-            //mostra na tela.
-            pw = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-            LinearLayout layout = new LinearLayout(act);
-            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        }
-        catch(Exception e){
-
-            Log.i("gameovertaskerro", "Erro: " + e.toString());
-        }
+        verificaDadosEnviados();
     }
 
     private void enviaPontuacao(){
-
-        Log.e("location","Lat: " + MainActivity.GpsLoc.getLatitude() + " Longi: " + MainActivity.GpsLoc.getLongitude());
         try {
             Profile prof = Profile.getCurrentProfile();
             if(prof != null) {
@@ -144,10 +105,6 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         try {
             InputStream in = new URL(uri.toString()).openStream();
             bmp[0] = BitmapFactory.decodeStream(in);
-
-            Log.e("uriface", "UIR: " + uri.toString());
-            Log.e("uriface", "IMG: " + bmp[0].toString());
-
             return  bmp[0];
         } catch (Exception e) {
             Log.e("uriface", "ERRO: " + e.toString());
@@ -155,4 +112,35 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    private void mostraTelaFimJogo(){
+        try {
+            LayoutInflater inflater = (LayoutInflater) this.act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.game_over, null, false);
+
+            Button btInicio = (Button) view.findViewById(R.id.btnVoltarInicio);//pega referencia para o botao de inicio de jogo.
+            btInicio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    act.finish();
+                    pw.dismiss();
+                }
+            });
+
+            //mostra na tela.
+            pw = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+            LinearLayout layout = new LinearLayout(act);
+            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        }
+        catch(Exception e){
+            Log.i("gameovertaskerro", "Erro: " + e.toString());
+        }
+    }
+
+    private void verificaDadosEnviados(){
+        if(conectFb) {
+            Toast.makeText(act, "Pontuação enviada para o servidor. " , Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(act, "Pontuação não enviada. Conecte-se para poder participar do rank." , Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -58,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         GpsLoc = new GPSLocation(this);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -88,52 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
         //verifica se ja esta conectado ao facebook.
         verificaConexaoFace();
-        /*PEGAR A KEY HASH PARA APP DO FACEBOOK.
-        pegaKeyHash();
-        */
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-
-
-
-        try {
-            final Uri uri = Profile.getCurrentProfile().getProfilePictureUri(100, 100);
-            final Bitmap[] bmp = new Bitmap[1];
-
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        Log.e("uriface", "URI: " + uri.toString());
-                        InputStream in = new URL(uri.toString()).openStream();
-                        bmp[0] = BitmapFactory.decodeStream(in);
-                        Log.e("uriface", "pegou a imagem");
-                    } catch (Exception e) {
-                        Log.e("uriface", "nao pegou a imagem. ERRO: " + e.toString());
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void result) {
-                    if (bmp[0] != null) {
-                        ImageView imageView = (ImageView)findViewById(R.id.imageTest);
-                        imageView.setImageBitmap(bmp[0]);
-                    }
-                }
-
-            }.execute();
-        }
-        catch(Exception e){
-            Log.e("uriface", "ERRO: " + e.toString());
-        }
-
     }
-
-
-
 
     public void inciaJogo(View v) {
         Intent telaNivel = new Intent(MainActivity.this, DificuldadeJogoAct.class);
@@ -141,20 +101,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rank(View v) {
-        Intent rank = new Intent(MainActivity.this, RankJogo.class);
-        startActivity(rank);
-        finish();
+        if(Profile.getCurrentProfile()  != null) {
+            Intent rank = new Intent(MainActivity.this, RankJogo.class);
+            startActivity(rank);
+            finish();
+        }else
+        {
+            Toast.makeText(getBaseContext(), "Logue-se pra ver o rank.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void sair(View v) {
         finish();
         System.exit(0);
-    }
-
-    public void convida(View v) {
-        Intent convite = new Intent(MainActivity.this, ConvidaAmigosAct.class);
-        startActivity(convite);
-        finish();
     }
 
     @Override
@@ -185,23 +144,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             ).executeAsync();
-        }
-    }
-
-    private void pegaKeyHash() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "integrador.senac.com.crasyrunner",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e("erro", e.getMessage(), e);
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("erro", e.getMessage(), e);
         }
     }
 

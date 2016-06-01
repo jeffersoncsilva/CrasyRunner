@@ -42,7 +42,6 @@ public class ListaAmigosTask extends AsyncTask<String, String, String> {
         try{
             JsonParser jParse = new JsonParser();
             JSONArray jArray = jParse.getJSONArrayFromUrl(URL_PONTOS);
-            Log.i("jsonObj","JSONArray: " + jArray.toString());
             for(int i = 0; i < jArray.length(); i++){
                 JSONObject jOb = jArray.getJSONObject(i);
                 Amigo am = new Amigo(act);
