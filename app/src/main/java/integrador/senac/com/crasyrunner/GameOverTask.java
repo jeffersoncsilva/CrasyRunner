@@ -3,6 +3,8 @@ package integrador.senac.com.crasyrunner;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,6 +22,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -36,7 +41,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by Jefferson on 25/04/2016.
@@ -96,15 +103,21 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
 
     private void enviaPontuacao(){
 
+        Log.e("location","Lat: " + MainActivity.GpsLoc.getLatitude() + " Longi: " + MainActivity.GpsLoc.getLongitude());
         try {
             Profile prof = Profile.getCurrentProfile();
             if(prof != null) {
+                Bitmap bmp = pegaImageProfile(prof);
+
                 conectFb = true;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", prof.getFirstName());
                 jsonObject.put("gameId", gameId);
                 jsonObject.put("score", score);
                 jsonObject.put("facebookId", prof.getId());
+                jsonObject.put("latitude", MainActivity.GpsLoc.getLatitude());
+                jsonObject.put("longitude", MainActivity.GpsLoc.getLongitude());
+
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost post = new HttpPost("http://acesso.ws/ranking/services/score/sendScore");
                 post.setEntity(new StringEntity(jsonObject.toString(), "UTF8"));
@@ -124,4 +137,22 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
         }
     }
+
+    private Bitmap pegaImageProfile(Profile prof){
+        Bitmap[] bmp = new Bitmap[1];
+        Uri uri = prof.getProfilePictureUri(100,100);
+        try {
+            InputStream in = new URL(uri.toString()).openStream();
+            bmp[0] = BitmapFactory.decodeStream(in);
+
+            Log.e("uriface", "UIR: " + uri.toString());
+            Log.e("uriface", "IMG: " + bmp[0].toString());
+
+            return  bmp[0];
+        } catch (Exception e) {
+            Log.e("uriface", "ERRO: " + e.toString());
+        }
+        return null;
+    }
+
 }

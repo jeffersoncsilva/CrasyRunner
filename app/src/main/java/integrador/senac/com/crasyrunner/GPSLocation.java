@@ -9,7 +9,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 /**
  * Created by Jefferson on 30/05/2016.
@@ -26,15 +25,14 @@ public class GPSLocation implements LocationListener {
             ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 50, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 50, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 50, this);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
-
     }
 
     @Override

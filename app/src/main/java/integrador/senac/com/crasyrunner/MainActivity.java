@@ -7,11 +7,13 @@ import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -31,15 +33,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
+    public static GPSLocation GpsLoc;
+
     private CallbackManager call;
     private AccessToken acToken;
     private Profile prof;
-    private GPSLocation gpsLoc;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -50,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.gpsLoc = new GPSLocation(this);
+
+
+        GpsLoc = new GPSLocation(this);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -85,7 +94,46 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+
+
+
+        try {
+            final Uri uri = Profile.getCurrentProfile().getProfilePictureUri(100, 100);
+            final Bitmap[] bmp = new Bitmap[1];
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        Log.e("uriface", "URI: " + uri.toString());
+                        InputStream in = new URL(uri.toString()).openStream();
+                        bmp[0] = BitmapFactory.decodeStream(in);
+                        Log.e("uriface", "pegou a imagem");
+                    } catch (Exception e) {
+                        Log.e("uriface", "nao pegou a imagem. ERRO: " + e.toString());
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void result) {
+                    if (bmp[0] != null) {
+                        ImageView imageView = (ImageView)findViewById(R.id.imageTest);
+                        imageView.setImageBitmap(bmp[0]);
+                    }
+                }
+
+            }.execute();
+        }
+        catch(Exception e){
+            Log.e("uriface", "ERRO: " + e.toString());
+        }
+
     }
+
+
+
 
     public void inciaJogo(View v) {
         Intent telaNivel = new Intent(MainActivity.this, DificuldadeJogoAct.class);
