@@ -2,6 +2,8 @@ package integrador.senac.com.crasyrunner;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.MainThread;
 import android.util.Log;
@@ -44,10 +46,12 @@ public class ListaAmigosTask extends AsyncTask<String, String, String> {
             JSONArray jArray = jParse.getJSONArrayFromUrl(URL_PONTOS);
             for(int i = 0; i < jArray.length(); i++){
                 JSONObject jOb = jArray.getJSONObject(i);
-                Amigo am = new Amigo(act);
+                Amigo am = new Amigo();
                 am.setNome(jOb.getString("name"));
                 am.setId(jOb.getInt("facebookId"));
                 am.setPontos(jOb.getInt("score"));
+                am.setFoto(getBimapJsonObj(jOb));
+
                 amigos.add(am);
             }
 
@@ -62,6 +66,18 @@ public class ListaAmigosTask extends AsyncTask<String, String, String> {
         progressDialog.cancel();
         ListaAmigosAdapter adapter = new ListaAmigosAdapter(amigos, act);
         lista.setAdapter(adapter);
+    }
+
+    private Bitmap getBimapJsonObj(JSONObject job){
+        try {
+            byte[] imgBytes = job.get("picture").toString().getBytes();
+            return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
+        }
+        catch (Exception e){
+            Log.e("listaamigostask", "ERRO: " + e.toString(), e);
+        }
+
+        return  null;
     }
 
 }

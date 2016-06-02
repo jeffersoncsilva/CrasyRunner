@@ -22,6 +22,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -68,7 +70,9 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         try {
             Profile prof = Profile.getCurrentProfile();
             if(prof != null) {
+
                 Bitmap bmp = pegaImageProfile(prof);
+                byte[] picByteArray = convertToByteArrayImage(bmp);
 
                 conectFb = true;
                 JSONObject jsonObject = new JSONObject();
@@ -78,6 +82,9 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
                 jsonObject.put("facebookId", prof.getId());
                 jsonObject.put("latitude", MainActivity.GpsLoc.getLatitude());
                 jsonObject.put("longitude", MainActivity.GpsLoc.getLongitude());
+                //jsonObject.put("picture", picByteArray);
+
+                Log.e("gameovertask", "josonobjt: " + jsonObject.toString());
 
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost post = new HttpPost("http://acesso.ws/ranking/services/score/sendScore");
@@ -97,6 +104,12 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             Log.e("score", e.getMessage(), e);
             e.printStackTrace();
         }
+    }
+
+    private byte[] convertToByteArrayImage(Bitmap bmp){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
     }
 
     private Bitmap pegaImageProfile(Profile prof){

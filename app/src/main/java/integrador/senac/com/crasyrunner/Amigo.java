@@ -13,6 +13,8 @@ public class Amigo {
     private int id;
     private int pontos;
 
+    public Amigo(){}
+
     public Amigo(String nome, Context context, int id){
         this.nome = nome;
         Bitmap back = BitmapFactory.decodeResource(context.getResources(), R.drawable.jogaodr);
@@ -28,6 +30,8 @@ public class Amigo {
     public Bitmap getFoto() {
         return foto;
     }
+
+    public void setFoto(Bitmap bmp){this.foto = bmp;}
 
     public String getNome(){
         return  this.nome;
@@ -50,4 +54,6 @@ public class Amigo {
     public void setPontos(int pontos) {
         this.pontos = pontos;
     }
+
+
 }
