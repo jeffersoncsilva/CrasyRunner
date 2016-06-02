@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@color/transparente"
-    android:padding="25dp">
+    android:padding="25dp"
+    android:keepScreenOn="true">
 
     <TextView
         android:layout_height="wrap_content"

@@ -44,13 +44,18 @@ public class Game extends SurfaceView implements Runnable {
     @Override
     public void run(){
         while (!gameOver) {
-            if (!holder.getSurface().isValid()) continue;
-            //PRIMEIRO, update da fisica do jogo.
-            update();
-            // SEGUNDO, desenha na tela.
-            Canvas canvas = holder.lockCanvas();    //pego o canvas para poder desenhas na tela
-            drawTela(canvas);
-            holder.unlockCanvasAndPost(canvas);     //libero o canvas para ser desenhado (mostrado ao jogador)
+            try {
+                if (!holder.getSurface().isValid()) continue;
+                //PRIMEIRO, update da fisica do jogo.
+                update();
+                // SEGUNDO, desenha na tela.
+                Canvas canvas = holder.lockCanvas();    //pego o canvas para poder desenhas na tela
+                drawTela(canvas);
+                holder.unlockCanvasAndPost(canvas);     //libero o canvas para ser desenhado (mostrado ao jogador)
+            }
+            catch(Exception e){
+             Log.e("errocanvas","ERRO: " + e.toString(), e);
+            }
         }
     }
 
@@ -63,10 +68,10 @@ public class Game extends SurfaceView implements Runnable {
     }
 
     private void drawTela(Canvas canvas){
-        this.back.draw(canvas);
-        this.bolinhasControl.draw(canvas);
-        this.jogador.draw(canvas);
-        this.hud.draw(canvas);
+            this.back.draw(canvas);
+            this.bolinhasControl.draw(canvas);
+            this.jogador.draw(canvas);
+            this.hud.draw(canvas);
     }
 
     private void colisaoElementos(ArrayList<ElementoTela> el){
@@ -98,6 +103,10 @@ public class Game extends SurfaceView implements Runnable {
         }catch (Exception ex){
             Log.e("erro",  "ERRO: " + ex.toString() + " | " + ex.getMessage());
         }
+    }
+
+    public static void SetGameOverTrue(){
+        gameOver = true;
     }
 
 }

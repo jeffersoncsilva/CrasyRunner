@@ -1,5 +1,6 @@
 package integrador.senac.com.crasyrunner;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager call;
     private AccessToken acToken;
     private Profile prof;
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -186,4 +189,6 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
+
 }

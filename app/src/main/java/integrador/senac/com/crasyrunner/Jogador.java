@@ -24,16 +24,18 @@ public class Jogador extends  ElementoTela{
     public void update() {
         //atualiza a posição do jogador com base no acelerometro.
         float acX = ac.getAcelerationX();
-        if (acX > 0 && this.posX + getVelocidade() >= 0)
+        float vel = (acX * getVelocidade());
+        if (acX > 0 && (this.posX-raio) - vel >= 0)
         {
             //esta indo para esquerda.
-            posX -= (acX * getVelocidade());
+            posX -= vel;
         }
-        if(acX < 0 && ((this.posX + (raio * 2)) - getVelocidade()) <= Tela.getLargura())
+        if(acX < 0 && ((this.posX + raio) - vel) <= Tela.getLargura())
         {
             //esta indo para direita.
-            posX -= (acX * getVelocidade());
+            posX -= vel;
         }
+
     }
 
     public void aumentaVelocidade(){

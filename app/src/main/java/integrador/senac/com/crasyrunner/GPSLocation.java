@@ -15,14 +15,15 @@ import android.support.v4.app.ActivityCompat;
  */
 public class GPSLocation implements LocationListener {
     private LocationManager locationManager;
-
+    private Activity act;
     private double latitude;
     private double longitude;
 
     public GPSLocation(Activity act) {
+        this.act = act;
         locationManager = (LocationManager) act.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 50, this);
@@ -50,6 +51,15 @@ public class GPSLocation implements LocationListener {
 
     }
 
+    public void removeUpdatesLocation() {
+        if (ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            return;
+
+        locationManager.removeUpdates(this);
+    }
+
     public double getLatitude(){return this.latitude; }
     public double getLongitude(){return this.longitude;}
+
 }
