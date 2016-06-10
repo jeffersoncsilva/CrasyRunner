@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -71,8 +72,11 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             Profile prof = Profile.getCurrentProfile();
             if(prof != null) {
 
+
+                //converte a img para base64
                 Bitmap bmp = pegaImageProfile(prof);
                 byte[] picByteArray = convertToByteArrayImage(bmp);
+                String encodedImage = Base64.encodeToString(picByteArray, Base64.DEFAULT);
 
                 conectFb = true;
                 JSONObject jsonObject = new JSONObject();
@@ -82,7 +86,7 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
                 jsonObject.put("facebookId", prof.getId());
                 jsonObject.put("latitude", MainActivity.GpsLoc.getLatitude());
                 jsonObject.put("longitude", MainActivity.GpsLoc.getLongitude());
-                //jsonObject.put("picture", picByteArray);
+                jsonObject.put("picture", encodedImage);
 
                 Log.e("gameovertask", "josonobjt: " + jsonObject.toString());
 

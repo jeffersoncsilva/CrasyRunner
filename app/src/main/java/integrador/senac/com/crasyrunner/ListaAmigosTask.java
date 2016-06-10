@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.MainThread;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -70,8 +71,9 @@ public class ListaAmigosTask extends AsyncTask<String, String, String> {
 
     private Bitmap getBimapJsonObj(JSONObject job){
         try {
-            byte[] imgBytes = job.get("picture").toString().getBytes();
-            return BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
+            byte[] decodedString = Base64.decode(job.getString("picture"), Base64.DEFAULT);
+            Bitmap base64Bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            return base64Bitmap;
         }
         catch (Exception e){
             Log.e("listaamigostask", "ERRO: " + e.toString(), e);
