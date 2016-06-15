@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme.NoActionBar" >
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
@@ -28,22 +28,17 @@
         </activity>
 
         <activity
-            android:name=".TelaJogoActivity"
+            android:name=".activities.TelaJogoActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".RankJogo"
+            android:name=".rank.RankJogo"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".ConvidaAmigosAct"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".DificuldadeJogoAct"
+            android:name=".activities.DificuldadeJogoAct"
             android:screenOrientation="portrait">
         </activity>
 

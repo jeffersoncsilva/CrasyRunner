@@ -70,11 +70,11 @@ public class ShareFb {
         POST_STATUS_UPDATE
     }
 
-    public ShareFb(Activity act){
+    public ShareFb(Activity act) {
         this.act = act;
     }
 
-    public void preparaCompartilhamento(){
+    public void preparaCompartilhamento() {
         canPresentShareDialog = ShareDialog.canShow(ShareLinkContent.class);
         Log.d("presentsharedialog", "Valor: " + canPresentShareDialog);
 
@@ -83,7 +83,7 @@ public class ShareFb {
         shareDialog.registerCallback(callbackManager, shareCallback);
     }
 
-    public void share(){
+    public void share() {
         Profile profile = Profile.getCurrentProfile();
         ShareLinkContent linkContent = new ShareLinkContent.Builder()
                 .setContentTitle("Hello Facebook")

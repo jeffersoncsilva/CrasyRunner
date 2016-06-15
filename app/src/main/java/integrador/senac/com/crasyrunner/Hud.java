@@ -9,13 +9,10 @@ import android.graphics.Typeface;
  */
 public class Hud {
     private Paint cor;
-    private String distancia;
     private String pontos;
     private int dist;
-    private int pt;
+    private static int pt;
 
-    private long ultimoSegundo;
-    private long diferencaTempo;
 
     public Hud(){
         dist = 0;
@@ -25,22 +22,10 @@ public class Hud {
         cor.setTextSize(45);
         cor.setTypeface(Typeface.DEFAULT_BOLD);
         pontos = "P: 0";
-        distancia = "D: 0";
-        diferencaTempo = 1000;
-        ultimoSegundo = System.currentTimeMillis();
-    }
-
-    public void update(long currentTimeMillis){
-        if(currentTimeMillis >= ultimoSegundo + diferencaTempo) {
-            dist += 1;
-            distancia = "D: " + dist;
-            ultimoSegundo = System.currentTimeMillis();
-        }
     }
 
     public void draw(Canvas canvas){
         canvas.drawText(pontos, 25, 40, cor);
-        canvas.drawText(distancia, 350, 40, cor);
     }
 
     public void aumentaPontos(int valor){
@@ -48,5 +33,5 @@ public class Hud {
         pontos = "P: " + pt;
     }
 
-    public int getPt(){return  this.pt; }
+    public static int getPt(){return  pt; }
 }

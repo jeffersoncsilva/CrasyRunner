@@ -1,16 +1,16 @@
 package integrador.senac.com.crasyrunner;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.PopupWindow;
+
 import java.util.ArrayList;
+
+import integrador.senac.com.crasyrunner.bolinhas.ControleBolinhas;
+import integrador.senac.com.crasyrunner.bolinhas.ElementoTela;
+import integrador.senac.com.crasyrunner.bolinhas.Jogador;
 
 /**
  * Created by Jefferson on 19/04/2016.
@@ -31,8 +31,8 @@ public class Game extends SurfaceView implements Runnable {
         Tela.IniciaTela(activity.getBaseContext());
         this.gameOver = false;
         this.act = activity;
-        this.jogador = new Jogador(activity.getBaseContext(), nivel);
-        this.bolinhasControl = new ControleBolinhas(nivel, this.jogador);
+        this.jogador = new Jogador(activity.getBaseContext());
+        this.bolinhasControl = new ControleBolinhas(nivel, this.jogador, activity.getBaseContext());
         this.hud = new Hud();
         this.nivel = nivel;
         this.back = new Background(nivel);
@@ -63,7 +63,6 @@ public class Game extends SurfaceView implements Runnable {
         long currentTimeMillis = System.currentTimeMillis();
         this.bolinhasControl.update(currentTimeMillis);
         this.jogador.update();
-        this.hud.update(currentTimeMillis);
         colisaoElementos(bolinhasControl.getElementos());
     }
 
@@ -82,18 +81,20 @@ public class Game extends SurfaceView implements Runnable {
                 e = el.get(i);
                 distancia = Math.sqrt(Math.pow((e.getX() - jogador.getX()), 2) + Math.pow((e.getY() - jogador.getY()), 2));
                 if (distancia <= (e.getRaio() * 2)) {
-                    if (e.getNomeCor().equals(jogador.getNomeCor())) {
+                    if (e.getNomeForma().equals(jogador.getNomeForma())) {
                         hud.aumentaPontos(5);
                         el.remove(i);
                         //dispara som vitoria
+                        Som.playSom(Som.BolinhaCerta);
                         if(nivel == 2){
-                            jogador.mudaCor();
+                            jogador.mudaImagemForma();
                         }else if (nivel == 3){
-                            jogador.mudaCor();
+                            jogador.mudaImagemForma();
                         }
                         continue;
                     } else {
                         //dispara som de derrota
+                        Som.playSom(Som.BolinhaErrada);
                         gameOver = true;
                         new GameOverTask(act, hud.getPt()).execute();
                         break;

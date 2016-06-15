@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.Profile;
 import org.apache.http.HttpResponse;
@@ -27,6 +28,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+
+import integrador.senac.com.crasyrunner.activities.MainActivity;
 
 /**
  * Created by Jefferson on 25/04/2016.
@@ -43,8 +46,6 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         this.act = act;
         this.score = score;
         this.conectFb = false;
-
-
     }
 
     @Override
@@ -134,10 +135,14 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
             LayoutInflater inflater = (LayoutInflater) this.act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.game_over, null, false);
 
+            TextView gameOver = (TextView)view.findViewById(R.id.go_pontuacao);
+            gameOver.setText("Voce conseguiu " + Hud.getPt() + " pontos.");
+
             Button btInicio = (Button) view.findViewById(R.id.btnVoltarInicio);//pega referencia para o botao de inicio de jogo.
             btInicio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Som.playSom(Som.VoltarMenu);
                     act.finish();
                     pw.dismiss();
                 }
