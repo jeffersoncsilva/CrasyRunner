@@ -19,9 +19,12 @@ public class ListaAmigosAdapter extends BaseAdapter {
     private ArrayList<Amigo> amigos;
     private Activity act;
 
+    private int linha;
+
     public ListaAmigosAdapter(ArrayList<Amigo> amigos, Activity rankJogo) {
         this.amigos = amigos;
         this.act = rankJogo;
+        this.linha = 1;
     }
 
     @Override
@@ -42,11 +45,19 @@ public class ListaAmigosAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        View linha;
         Amigo amigo = amigos.get(position);
+
         LayoutInflater inflater = act.getLayoutInflater();
-
-        View linha = inflater.inflate(R.layout.linha_rank, null);
-
+        if(this.linha == 1) {
+            linha = inflater.inflate(R.layout.linha_rank_1, null);
+            this.linha = 2;
+        }
+        else
+        {
+            linha = inflater.inflate(R.layout.linha_rank_2, null);
+            this.linha = 1;
+        }
         TextView nome = (TextView) linha.findViewById(R.id.nome);
         nome.setText(amigo.getNome());
 

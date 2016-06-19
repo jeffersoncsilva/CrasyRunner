@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/fundo">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/intercalacao_1"/>
+
+    <ImageView
+        android:id="@+id/foto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/nome"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="nome"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@+id/foto"
+        android:layout_toEndOf="@+id/foto" />
+
+    <TextView
+        android:id="@+id/pontos"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:text="pontos"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

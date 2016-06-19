@@ -3,16 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:keepScreenOn="true">
+    android:keepScreenOn="true"
+    android:background="@drawable/background_rank">
 
-    <TextView
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
-        android:id="@+id/txt_titulo"
-        android:text="@string/textoInicio"
-        android:layout_gravity="center"
-        android:textSize="22dp"
-        android:layout_marginTop="10dp" />
+        android:layout_height="80dp"
+        android:src="@drawable/rank_txt"/>
+
 
     <ListView
         android:layout_width="match_parent"

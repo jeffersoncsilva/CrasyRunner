@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
@@ -132,11 +133,20 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
 
     private void mostraTelaFimJogo(){
         try {
-            LayoutInflater inflater = (LayoutInflater) this.act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.game_over, null, false);
+            //fonte
+            //Typeface fontRobo = Typeface.createFromAsset(this.act.getBaseContext().getAssets(), "fonts/ARLRDBD.ttf");
 
-            TextView gameOver = (TextView)view.findViewById(R.id.go_pontuacao);
-            gameOver.setText("Voce conseguiu " + Hud.getPt() + " pontos.");
+
+            LayoutInflater inflater = (LayoutInflater) this.act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.game_over_screen, null, false);
+
+            TextView tx = (TextView) view.findViewById(R.id.game_over);
+            //tx.setTypeface(fontRobo);
+
+
+            TextView txt_gameOver = (TextView)view.findViewById(R.id.go_pontuacao);
+            txt_gameOver.setText("Voce conseguiu " + Hud.getPt() + " pontos.");
+            //txt_gameOver.setTypeface(fontRobo);
 
             Button btInicio = (Button) view.findViewById(R.id.btnVoltarInicio);//pega referencia para o botao de inicio de jogo.
             btInicio.setOnClickListener(new View.OnClickListener() {

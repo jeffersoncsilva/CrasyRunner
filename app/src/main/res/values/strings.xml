@@ -6,7 +6,7 @@
     <string name="sair">Sair</string>
     <string name="nomeJogo">CrasyRunner</string>
     <string name="textoInicio">Rank Jogo</string>
-    <string name="gameOver">Fim de Jogo!</string>
+    <string name="gameOver">Game Over!</string>
     <string name="voltaInicio">Inicio</string>
     <string name="voltar">Voltar</string>
     <string name="facebook_app_id">213727709011724</string>
@@ -15,4 +15,7 @@
     <string name="dificio">Dificio</string>
     <string name="shareFb">Compartilhar</string>
     <string name="convidaFb">Convidar</string>
+    <string name="sua_pontuacao">Sua pontuação:</string>
+    <string name="game_over_screen">game_over_screen</string>
+    <string name="sua_pontua_o">Sua pontuação:</string>
 </resources>
