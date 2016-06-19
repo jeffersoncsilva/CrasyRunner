@@ -35,7 +35,7 @@ public class Game extends SurfaceView implements Runnable {
         this.bolinhasControl = new ControleBolinhas(nivel, this.jogador, activity.getBaseContext());
         this.hud = new Hud();
         this.nivel = nivel;
-        this.back = new Background(nivel);
+        this.back = new Background(activity.getBaseContext());
 
         Thread thread = new Thread(this);
         thread.start();
