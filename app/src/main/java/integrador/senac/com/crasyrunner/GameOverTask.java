@@ -18,12 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.facebook.Profile;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -41,12 +35,10 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
     private long time;
     private PopupWindow pw;
     private int score;
-    private boolean conectFb;
 
     public GameOverTask(Activity act, int score){
         this.act = act;
         this.score = score;
-        this.conectFb = false;
     }
 
     @Override
@@ -60,75 +52,12 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        enviaPontuacao();
         return null;
     }
 
     @Override
     protected void onPostExecute(Void result) {
-        verificaDadosEnviados();
-    }
 
-    private void enviaPontuacao(){
-        try {
-            Profile prof = Profile.getCurrentProfile();
-            if(prof != null) {
-
-
-                //converte a img para base64
-                Bitmap bmp = pegaImageProfile(prof);
-                byte[] picByteArray = convertToByteArrayImage(bmp);
-                String encodedImage = Base64.encodeToString(picByteArray, Base64.DEFAULT);
-
-                conectFb = true;
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("name", prof.getFirstName());
-                jsonObject.put("gameId", gameId);
-                jsonObject.put("score", score);
-                jsonObject.put("facebookId", prof.getId());
-                jsonObject.put("latitude", MainActivity.GpsLoc.getLatitude());
-                jsonObject.put("longitude", MainActivity.GpsLoc.getLongitude());
-                jsonObject.put("picture", encodedImage);
-
-                Log.e("gameovertask", "josonobjt: " + jsonObject.toString());
-
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost post = new HttpPost("http://acesso.ws/ranking/services/score/sendScore");
-                post.setEntity(new StringEntity(jsonObject.toString(), "UTF8"));
-                post.setHeader("Content-type", "application/json");
-                HttpResponse resp = httpclient.execute(post);
-
-                if (resp != null) {
-                    Log.i("score", "Status: " + resp.getStatusLine().getStatusCode());
-                }
-            }
-            else{
-                Log.e("score", "usuario nao logado no facebook.");
-                conectFb = false;
-            }
-        } catch (Exception e) {
-            Log.e("score", e.getMessage(), e);
-            e.printStackTrace();
-        }
-    }
-
-    private byte[] convertToByteArrayImage(Bitmap bmp){
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
-    }
-
-    private Bitmap pegaImageProfile(Profile prof){
-        Bitmap[] bmp = new Bitmap[1];
-        Uri uri = prof.getProfilePictureUri(100,100);
-        try {
-            InputStream in = new URL(uri.toString()).openStream();
-            bmp[0] = BitmapFactory.decodeStream(in);
-            return  bmp[0];
-        } catch (Exception e) {
-            Log.e("uriface", "ERRO: " + e.toString());
-        }
-        return null;
     }
 
     private void mostraTelaFimJogo(){
@@ -165,14 +94,6 @@ public class GameOverTask extends AsyncTask<Void, Void, Void> {
         }
         catch(Exception e){
             Log.i("gameovertaskerro", "Erro: " + e.toString());
-        }
-    }
-
-    private void verificaDadosEnviados(){
-        if(conectFb) {
-            Toast.makeText(act, "Pontuação enviada para o servidor. " , Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(act, "Pontuação não enviada. Conecte-se para poder participar do rank." , Toast.LENGTH_SHORT).show();
         }
     }
 }
